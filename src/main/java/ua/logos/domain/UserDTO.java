@@ -35,6 +35,7 @@ public class UserDTO {
     @Size(max = 40, message = "Max length 40 symbols")
     private String name;
 
+    @CheckAgeCorrect
     private int age;
 
     @CheckPhoneNumberCorrect

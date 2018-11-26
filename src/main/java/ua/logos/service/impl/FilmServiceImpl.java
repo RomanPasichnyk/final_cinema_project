@@ -34,6 +34,8 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public FilmDTO findFilmById(Long id) {
-        return null;
+        FilmEntity filmEntity = filmRepository.findById(id).get();
+        FilmDTO filmDTO = modelMapper.map(filmEntity, FilmDTO.class);
+        return filmDTO;
     }
 }

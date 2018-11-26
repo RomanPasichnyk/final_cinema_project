@@ -18,6 +18,7 @@ public class SessionController {
 
     @PostMapping
     public ResponseEntity<?> saveSession(@RequestBody SessionDTO sessionDTO) {
+        System.out.println(sessionDTO.getTime());
         sessionService.saveSession(sessionDTO);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }

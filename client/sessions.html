@@ -52,8 +52,10 @@
 
     <section>
         <div class="container">
-            <div class="row" id="films">
+            <div class="row" id="sessions">
                 <h1 class="text-center"><span>Sessions</span></h1>
+<!--                <a href="hall.html">test</a>-->
+
 
 
             </div>
@@ -91,10 +93,10 @@
     <script>
         let serverURL = 'http://localhost:8080/';
         $(document).ready(function() {
-            getFilms();
+            getSessions();
         });
 
-        function getFilms() {
+        function getSessions() {
             $.ajax({
                 url: serverURL + "sessions",
                 method: "GET",
@@ -105,9 +107,13 @@
 
 
                     $.each(response, function(key, value) {
-                        $('#films').append(
-                            `
-                      
+                        $('#sessions').append(
+                        `
+                                    <div>
+                                        ${value.film.filmName}
+                                        ${value.time}
+                                        ${value.date}
+                                    </div>
                         `
                         )
                     });
