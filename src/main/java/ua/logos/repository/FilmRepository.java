@@ -7,4 +7,6 @@ import ua.logos.entity.FilmEntity;
 @Repository
 public interface FilmRepository extends JpaRepository<FilmEntity, Long> {
 
+    FilmEntity findByFilmName(String filmName);
+
 }

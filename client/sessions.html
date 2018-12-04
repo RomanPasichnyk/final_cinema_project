@@ -104,19 +104,43 @@
                 contentType: "application/json",
                 success: function(response) {
                     console.log(response);
-
-
-                    $.each(response, function(key, value) {
+                    
+                    var ses = {
+                        film_id: "${response[i].film.id}",
+                        date: []
+                    }
+                    
+                    for(i=0;i<response.length;i++){
+                        
+                        
+                        
                         $('#sessions').append(
                         `
                                     <div>
-                                        ${value.film.filmName}
-                                        ${value.time}
-                                        ${value.date}
+                                        ${response[i].film.filmName}
+                                        ${response[i].time[0]}:${response[i].time[1]}
+                                        ${response[i].date[1]}-${response[i].date[1]}-${response[i].date[2]}
                                     </div>
                         `
                         )
-                    });
+                    };
+                    
+//                    $.each(response, function(key, value) {
+//                        
+//                        
+//                        
+//                        $('#sessions').append(
+//                        `
+//                                    <div>
+//                                        ${value.film.filmName}
+//                                        ${value.time[0]}:${value.time[1]}
+//                                        ${value.date[0]}-${value.date[1]}-${value.date[2]}
+//                                    </div>
+//                                    
+//                        `
+//                           
+//                        )
+//                    });
                 }
             });
         }

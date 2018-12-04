@@ -50,7 +50,22 @@
             <div class="row" id="films">
                 <h1 class="text-center"><span>Films editor</span></h1>
 
+                <a href="addFilm.html"><button class="btn btn-success" id="btn-add">Add Film</button></a>
 
+                <table class="table table-striped" id="filmsTable">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Film</th>
+                            <th>Start Rental</th>
+                            <th>End Rental</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
 
             </div>
         </div>
@@ -87,8 +102,90 @@
     <script>
         let serverURL = 'http://localhost:8080/';
         $(document).ready(function() {
+            getFilms();
+
+            $(document).on('click', '#filmsTable tbody button', function(e) {
+                console.log(e.target.id);
+
+                let filmId = e.target.id.split('-')[2];
+                let ans = e.target.id.split('-')[1];
+                if (ans == "delete") {
+                    var r = confirm("Ви дійсно хочете видалити цей запис?");
+                    if (r == true) {
+                        deleteFilm(filmId);
+                    }
+                } else {
+                    var r = confirm("Ви дійсно хочете редагувати цей запис?");
+                    if (r == true) {
+                        alert("Success");
+                    }
+                }
+
+
+            });
 
         });
+
+
+        function getFilms() {
+            $.ajax({
+                url: serverURL + "films",
+                method: "GET",
+                dataType: "json",
+                contentType: "application/json",
+                success: function(response) {
+                    console.log(response);
+                    $.each(response, function(key, value) {
+                        $('#filmsTable tbody').append(
+                            `
+                            <tr>
+                                <td>${value.id}</td>
+                                <td>${value.filmName}</td>
+                                <td>${value.startRental}</td>
+                                <td>${value.startRental}</td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm" id="btn-delete-${value.id}">Delete</button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm" id="btn-edit-${value.id}">Edit</button>
+                                </td>
+                            </tr>
+                        `
+                        )
+                    });
+                }
+            });
+        }
+
+        function deleteFilm(filmId) {
+            $.ajax({
+                url: serverURL + 'films/' + filmId,
+                method: 'DELETE',
+                dataType: 'json',
+                contentType: 'application/json',
+                complete: function(res) {
+                    if (res.status == 200) {
+                        $('#filmsTable tbody').empty();
+                        getFilms();
+                    }
+                }
+            })
+        }
+
+        function editFilm(filmId) {
+            $.ajax({
+                url: serverURL + 'films/' + filmId,
+                method: 'POST',
+                dataType: 'json',
+                contentType: 'application/json',
+                complete: function(res) {
+                    if (res.status == 200) {
+                        $('#filmsTable tbody').empty();
+                        getFilms();
+                    }
+                }
+            })
+        }
 
     </script>
 

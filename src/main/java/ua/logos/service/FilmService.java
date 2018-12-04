@@ -13,4 +13,10 @@ public interface FilmService {
 
     List<FilmDTO> getAllFilms();
 
+    void deleteFilmById(Long id);
+
+    void addImageToFilm(String image, Long id);
+
+    FilmDTO findFilmByName(String name);
+
 }

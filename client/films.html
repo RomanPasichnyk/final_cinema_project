@@ -120,9 +120,7 @@
                 contentType: "application/json",
                 success: function(response) {
                     console.log(response);
-
-
-                    $.each(response, function(key, value) {
+                    $.each(response, function(key, value) {                   
                         $('#films').append(
                             `
                             <div class="col-md-4 mt-4">
@@ -135,9 +133,8 @@
                                         <p class="card-text">Genre: ${value.genre}<br>
                                         Duration: ${value.duration}<br>
                                         End Rental: ${value.endRental}</p>
-                                        <a href="${serverURL}films/${value.id}" class="btn btn-primary">More details</a>
+                                        <a href="film.html?id=${value.id}" class="btn btn-primary">More details</a>
                                     </div>
-                            
                         `
                         )
                     });
