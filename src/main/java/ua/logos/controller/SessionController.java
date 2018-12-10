@@ -7,7 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import ua.logos.domain.SessionDTO;
 import ua.logos.service.SessionService;
 
-import java.util.List;
+import javax.websocket.Session;
+import javax.websocket.server.PathParam;
+import java.sql.Array;
+import java.time.LocalDate;
+import java.util.*;
 
 @RestController
 @RequestMapping("sessions")
@@ -28,5 +32,32 @@ public class SessionController {
         List<SessionDTO> sessionDTOS = sessionService.getAllSession();
         return new ResponseEntity<List<SessionDTO>>(sessionDTOS, HttpStatus.OK);
     }
+
+    @GetMapping("search/{filmId}")
+    public ResponseEntity<?> getSessionByFilmId(
+            @PathVariable("filmId") Long id
+    ) {
+        List<SessionDTO> sessionDTOS = sessionService.getSessionByFilmId(id);
+        Set<LocalDate> sessionDates = new HashSet<>();
+        for (SessionDTO sessionDTO : sessionDTOS
+        ) {
+            sessionDates.add(sessionDTO.getDate());
+        }
+
+        return new ResponseEntity<Set<LocalDate>>(sessionDates, HttpStatus.OK);
+    }
+
+    @GetMapping("searchtime/{filmId}")
+    public ResponseEntity<?> getSessionByFilmIdAndDate(
+            @PathVariable("filmId") Long id,
+            @RequestParam("date") String date
+    ) {
+
+        String[] datee = date.split(",");
+        LocalDate normDate = LocalDate.of(Integer.valueOf(datee[0]), Integer.valueOf(datee[1]), Integer.valueOf(datee[2]));
+        List<SessionDTO> sessionDTOS = sessionService.getSessionByFilmIdAndDate(id, normDate);
+        return new ResponseEntity<List<SessionDTO>>(sessionDTOS, HttpStatus.OK);
+    }
+
 
 }

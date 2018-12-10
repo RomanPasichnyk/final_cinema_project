@@ -50,14 +50,33 @@
     </nav>
 
 
+
+
+
     <section>
         <div class="container">
-            <div class="row" id="sessions">
-                <h1 class="text-center"><span>Sessions</span></h1>
-<!--                <a href="hall.html">test</a>-->
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-4 well well-sm mx-auto">
+                    <h1 class="text-center"><span>Sessions</span></h1>
+                    <legend><a href="http://www.jquery2dotnet.com"><i class="glyphicon glyphicon-globe"></i></a>Choose your session!</legend><br>
+                    <form action="#" method="get" class="form" role="form" id="sessionForm">
+
+                        <div>
+                            <select class="form-control" id="filmName">
+                            </select>
+
+                            <select class="form-control" id="filmDate">
+                            </select>
+                            <select class="form-control" id="filmTime">
+                            </select>
+                        </div>
+
+                        <!--                <a href="hall.html">test</a>-->
 
 
 
+                    </form>
+                </div>
             </div>
         </div>
     </section>
@@ -93,54 +112,83 @@
     <script>
         let serverURL = 'http://localhost:8080/';
         $(document).ready(function() {
-            getSessions();
+            getFilms();
+            let filmId;
+            $("#filmName").change(function(e) {
+                $('#filmDate').empty();
+                setTimeout('filmId = $("#filmName").val()', 100);
+                setTimeout('console.log(filmId)', 100);
+                setTimeout('getSessionDateByFilmId(filmId)', 200);
+                
+            });
+
+            $("#filmDate").change(function(e) {
+                console.log($("#filmDate").val());
+                setTimeout('getSessionDateByFilmIdAndDate(filmId, $("#filmDate").val())', 100);
+            });
+            
+            $("#filmTime").change(function(e) {
+                console.log($("#filmTime").val());
+               
+            });
+
         });
 
-        function getSessions() {
+        function getFilms() {
             $.ajax({
-                url: serverURL + "sessions",
+                url: serverURL + "films",
                 method: "GET",
                 dataType: "json",
                 contentType: "application/json",
                 success: function(response) {
                     console.log(response);
-                    
-                    var ses = {
-                        film_id: "${response[i].film.id}",
-                        date: []
-                    }
-                    
-                    for(i=0;i<response.length;i++){
-                        
-                        
-                        
-                        $('#sessions').append(
+                    $.each(response, function(key, value) {
+                        $('#filmName').append(
+                            `
+                            <option value = ${value.id}>${value.filmName}</option>
                         `
-                                    <div>
-                                        ${response[i].film.filmName}
-                                        ${response[i].time[0]}:${response[i].time[1]}
-                                        ${response[i].date[1]}-${response[i].date[1]}-${response[i].date[2]}
-                                    </div>
-                        `
-                        )
-                    };
-                    
-//                    $.each(response, function(key, value) {
-//                        
-//                        
-//                        
-//                        $('#sessions').append(
-//                        `
-//                                    <div>
-//                                        ${value.film.filmName}
-//                                        ${value.time[0]}:${value.time[1]}
-//                                        ${value.date[0]}-${value.date[1]}-${value.date[2]}
-//                                    </div>
-//                                    
-//                        `
-//                           
-//                        )
-//                    });
+                        );
+                    });
+                }
+            });
+        };
+
+        function getSessionDateByFilmId(id) {
+            $.ajax({
+                url: serverURL + "sessions/search/" + id,
+                method: "GET",
+                dataType: "json",
+                contentType: "application/json",
+                success: function(response) {
+                    console.log(response);
+                    $.each(response, function(key, value) {
+                        let normDate = value[0] + "." + value[1] + "." + value[2];
+                        $('#filmDate').append(
+                            `
+                                <option value = ${value}>${normDate}</option>
+                            `
+                        );
+                    });
+                }
+            });
+        }
+        
+        function getSessionDateByFilmIdAndDate(id, date) {
+            $.ajax({
+                url: serverURL + "sessions/searchtime/" + id + "?date=" + date,
+                method: "GET",
+                dataType: "json",
+                contentType: "application/json",
+                success: function(response) {
+                    console.log(response);
+                    $.each(response, function(key, value) {
+                        let normTime = value.time[0] + ":" + value.time[1];
+                        $('#filmTime').append(
+                            `
+                                <option value = ${value.time}>${normTime}</option>
+                            `
+                        );
+                    });
                 }
             });
         }

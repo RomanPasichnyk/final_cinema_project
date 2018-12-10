@@ -3,12 +3,12 @@ package ua.logos.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ua.logos.enums.AccessEnum;
 import ua.logos.enums.GenderEnum;
 import ua.logos.enums.GenreEnum;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -21,7 +21,7 @@ public class UserEntity extends BaseEntity {
     @Column(name = "email", length = 40, nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password", length = 40, nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "name", length = 40, nullable = false)
@@ -36,9 +36,6 @@ public class UserEntity extends BaseEntity {
     @Enumerated
     private GenreEnum favoriteGenre;
 
-    @Enumerated
-    private AccessEnum access;
-
     @Column(name = "image")
     private String image;
 
@@ -47,5 +44,9 @@ public class UserEntity extends BaseEntity {
 
     @Enumerated
     private GenderEnum gender;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<RoleEntity> roles;
 
 }

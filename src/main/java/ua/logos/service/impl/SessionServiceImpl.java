@@ -1,13 +1,16 @@
 package ua.logos.service.impl;
 
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.logos.domain.SessionDTO;
+import ua.logos.entity.FilmEntity;
 import ua.logos.entity.SessionEntity;
 import ua.logos.repository.SessionRepository;
 import ua.logos.service.SessionService;
 import ua.logos.utils.ObjectMapperUtils;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -35,5 +38,20 @@ public class SessionServiceImpl implements SessionService {
     @Override
     public SessionDTO getSessionById(Long id) {
         return null;
+    }
+
+    @Override
+    public List<SessionDTO> getSessionByFilmId(Long id) {
+
+        List<SessionEntity> sessionEntities = sessionRepository.findByFilmId(id);
+        List<SessionDTO> sessionDTOS = modelMapper.mapAll(sessionEntities, SessionDTO.class);
+        return sessionDTOS;
+    }
+
+    @Override
+    public List<SessionDTO> getSessionByFilmIdAndDate(Long id, LocalDate date) {
+        List<SessionEntity> sessionEntities = sessionRepository.findByFilmIdAndDate(id, date);
+        List<SessionDTO> sessionDTOS = modelMapper.mapAll(sessionEntities, SessionDTO.class);
+        return sessionDTOS;
     }
 }

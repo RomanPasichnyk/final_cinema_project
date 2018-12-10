@@ -42,12 +42,6 @@ public class UserServiceImpl implements UserService {
         return userDTO;
     }
 
-    @Override
-    public UserDTO findUserByEmail(String email) {
-        UserEntity userEntity = userRepository.findByEmail(email);
-        UserDTO userDTO = modelMapper.map(userEntity, UserDTO.class);
-        return userDTO;
-    }
 
     @Override
     public List<UserDTO> findUserByNameLikeOrEmail(String name, String email) {

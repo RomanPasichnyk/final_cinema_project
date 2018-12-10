@@ -3,7 +3,6 @@ package ua.logos.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ua.logos.enums.AccessEnum;
 import ua.logos.enums.GenderEnum;
 import ua.logos.enums.GenreEnum;
 import ua.logos.validation.*;
@@ -27,7 +26,6 @@ public class UserDTO {
     private String email;
 
     @NotNull
-    @Size(min = 8, max = 40, message = "[Password]: Min length 8 symbols, max length 40 symbols")
     private String password;
 
     private String confirmPassword;
@@ -43,8 +41,6 @@ public class UserDTO {
     private String phoneNumber;
 
     private GenreEnum favoriteGenre;
-
-    private AccessEnum access;
 
     private String image;
 
