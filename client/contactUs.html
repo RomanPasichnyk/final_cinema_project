@@ -94,27 +94,6 @@
             getFilms();
         });
 
-        function getFilms() {
-            $.ajax({
-                url: serverURL + "sessions",
-                method: "GET",
-                dataType: "json",
-                contentType: "application/json",
-                success: function(response) {
-                    console.log(response);
-
-
-                    $.each(response, function(key, value) {
-                        $('#films').append(
-                            `
-                      
-                        `
-                        )
-                    });
-                }
-            });
-        }
-
     </script>
 
 </body>

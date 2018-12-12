@@ -2,8 +2,14 @@ package ua.logos.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ua.logos.config.jwt.JwtTokenProvider;
+import ua.logos.domain.SigninRequest;
 import ua.logos.domain.UserDTO;
 import ua.logos.entity.RoleEntity;
 import ua.logos.entity.UserEntity;
@@ -32,6 +38,12 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private ObjectMapperUtils modelMapper;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
     @Override
     public void signup(UserDTO userDTO) {
 
@@ -51,5 +63,13 @@ public class AuthServiceImpl implements AuthService {
         userEntity.setRoles(roles);
 
         userRepository.save(userEntity);
+    }
+
+    @Override
+    public String signin(SigninRequest request) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtTokenProvider.generateToken(authentication);
+        return token;
     }
 }

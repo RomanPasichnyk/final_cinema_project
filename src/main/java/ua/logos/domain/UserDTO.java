@@ -20,7 +20,7 @@ public class UserDTO {
     private Long id;
 
     @CheckEmailCorrect
-    @CheckEmailExists
+//    @CheckEmailExists
     @NotNull(message = "Field email can`t be null")
     @Size(min = 6, max = 40, message = "[Email]: Min length 6 symbols, max length 40 symbols")
     private String email;

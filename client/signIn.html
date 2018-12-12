@@ -101,8 +101,55 @@
     <script>
         let serverURL = 'http://localhost:8080/';
         $(document).ready(function() {
-
+            $("#signInForm").submit(function(e) {
+                e.preventDefault();
+                signin();
+            });
         });
+
+        function signin() {
+            let userEmail = $("#userEmail").val();
+            let userPassword = $("#userPassword").val();
+
+            let user = {
+                email: userEmail,
+                password: userPassword
+            }
+
+            $.ajax({
+                url: serverURL + "auth/signin",
+                method: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(user),
+                complete: function(data) {
+                    console.log(data);
+                    if (data.status == 200) {
+                        let token = data.responseJSON.token;
+                        window.localStorage.setItem('auth_token', token);
+                        
+                        let role = parseJwt(token).auth;
+                        
+                        if (role === 'ROLE_USER') {
+                            alert('Your role : ' + role);
+                            // window.location.href = 'user.html';
+                        } else if (role === 'ROLE_ADMIN') {
+                            // window.location.href = 'admin.html';
+                            alert('Your role : ' + role);
+                        }
+                        window.location.href = 'films.html';
+                        
+                        
+                    }
+                }
+            })
+        }
+
+        function parseJwt(token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace('-', '+').replace('_', '/');
+            return JSON.parse(window.atob(base64));
+        }
 
     </script>
 

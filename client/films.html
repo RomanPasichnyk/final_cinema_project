@@ -37,12 +37,15 @@
                     <a href="#" class="nav-link">Contact Us</a>
                 </li>
             </ul>
-            <ul class="navbar-nav offset-md-9">
+            <ul class="navbar-nav offset-md-8">
                 <li class="nav-item">
                     <a href="reg.html" class="nav-link">Sign Up</a>
                 </li>
                 <li class="nav-item">
                     <a href="signIn.html" class="nav-link">Sign In</a>
+                </li>
+                <li class="nav-item">
+                    <a href="signIn.html" class="nav-link" id="logoutBtn">Log Out</a>
                 </li>
             </ul>
 
@@ -109,7 +112,23 @@
     <script>
         let serverURL = 'http://localhost:8080/';
         $(document).ready(function() {
-            getFilms();
+            let token = window.localStorage.getItem('auth_token');
+            if(token) {
+                
+                $.ajaxSetup({
+                    headers : {
+                        'Authorization' : 'Bearer ' + token
+                    }
+                })
+                
+                getFilms();
+                
+                $('#logoutBtn').on('click', function(e) {
+                    window.localStorage.removeItem('auth_token');
+                    window.location.reload();
+                });
+            }
+            
         });
 
         function getFilms() {

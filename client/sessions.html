@@ -112,25 +112,37 @@
     <script>
         let serverURL = 'http://localhost:8080/';
         $(document).ready(function() {
-            getFilms();
-            let filmId;
-            $("#filmName").change(function(e) {
-                $('#filmDate').empty();
-                setTimeout('filmId = $("#filmName").val()', 100);
-                setTimeout('console.log(filmId)', 100);
-                setTimeout('getSessionDateByFilmId(filmId)', 200);
-                
-            });
 
-            $("#filmDate").change(function(e) {
-                console.log($("#filmDate").val());
-                setTimeout('getSessionDateByFilmIdAndDate(filmId, $("#filmDate").val())', 100);
-            });
-            
-            $("#filmTime").change(function(e) {
-                console.log($("#filmTime").val());
-               
-            });
+            let token = window.localStorage.getItem('auth_token');
+            if (token) {
+
+                $.ajaxSetup({
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                })
+
+
+                getFilms();
+                let filmId;
+                $("#filmName").change(function(e) {
+                    $('#filmDate').empty();
+                    setTimeout('filmId = $("#filmName").val()', 100);
+                    setTimeout('console.log(filmId)', 100);
+                    setTimeout('getSessionDateByFilmId(filmId)', 200);
+
+                });
+
+                $("#filmDate").change(function(e) {
+                    console.log($("#filmDate").val());
+                    setTimeout('getSessionDateByFilmIdAndDate(filmId, $("#filmDate").val())', 100);
+                });
+
+                $("#filmTime").change(function(e) {
+                    console.log($("#filmTime").val());
+
+                });
+            }
 
         });
 
@@ -172,7 +184,7 @@
                 }
             });
         }
-        
+
         function getSessionDateByFilmIdAndDate(id, date) {
             $.ajax({
                 url: serverURL + "sessions/searchtime/" + id + "?date=" + date,

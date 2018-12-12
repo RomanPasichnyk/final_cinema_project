@@ -218,26 +218,24 @@
                 email: userEmail,
                 password: userPassword,
                 confirmPassword: userConfirmPassword,
-                userName: userName,
+                name: userName,
                 age: userAge,
                 phoneNumber: userPhoneNumber,
                 favoriteGenre: userFavoriteGenre,
-                access: "USER",
                 birthDate: "" + userBirthDay[0] + "-" + userBirthDay[1] + "-" + userBirthDay[2],
                 gender: userGender
             };
             console.log(user);
 
             $.ajax({
-                url: serverURL + "users",
+                url: serverURL + "auth/signup",
                 method: "POST",
                 dataType: "json",
                 contentType: "application/json",
                 data: JSON.stringify(user),
                 complete: function(data) {
                     if (data.status == 201) {
-                        alert('User added');
-                        $('#signUpForm')[0].reset();
+                        window.location.href="signIn.html";
                     }
                 }
             })
