@@ -37,8 +37,10 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public SessionDTO getSessionById(Long id) {
-        return null;
+    public SessionDTO findSessionById(Long id) {
+        SessionEntity sessionEntity = sessionRepository.findById(id).get();
+        SessionDTO sessionDTO = modelMapper.map(sessionEntity, SessionDTO.class);
+        return sessionDTO;
     }
 
     @Override

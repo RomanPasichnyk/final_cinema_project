@@ -18,21 +18,12 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav" id="head">
                 <li class="nav-item">
                     <a href="films.html" class="nav-link">Films</a>
                 </li>
                 <li class="nav-item active">
                     <a href="sessions.html" class="nav-link">Sessions</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navdrop" role="button" data-toggle="dropdown" data-hover="dropdown">Services</a>
-                    <div class="dropdown-menu" aria-labelledby="navdrop">
-                        <a href="#" class="dropdown-item">Service1</a>
-                        <a href="#" class="dropdown-item">Service2</a>
-                        <a href="#" class="dropdown-item">Service3</a>
-                    </div>
-
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">Contact Us</a>
@@ -40,10 +31,7 @@
             </ul>
             <ul class="navbar-nav offset-md-9">
                 <li class="nav-item">
-                    <a href="reg.html" class="nav-link">Sign Up</a>
-                </li>
-                <li class="nav-item">
-                    <a href="signIn.html" class="nav-link">Sign In</a>
+                    <a href="signIn.html" class="nav-link" id="logoutBtn">Log Out</a>
                 </li>
             </ul>
 
@@ -54,8 +42,8 @@
 
         <div class="container">
             <div class="row" id="films">
-                <h1 class="text-center"><span>Film - name film</span></h1>
-                
+                <h1 class="text-center"><span id="filmNameHead"></span></h1>
+
             </div>
         </div>
 
@@ -97,11 +85,37 @@
         let serverURL = 'http://localhost:8080/';
         var mass = [];
         $(document).ready(function() {
+            
+
+            let token = window.localStorage.getItem('auth_token');
+            if (token) {
+                let role = parseJwt(token).auth;
+                if (role === 'ROLE_ADMIN') {
+                    $('#head').append(
+                        `
+                        <li class="nav-item active">
+                            <a href="editFilms.html" class="nav-link">AdminPanel</a>
+                        </li>
+                        `
+                    )
+                };
+                $.ajaxSetup({
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+                getSession();
+                console.log(window.location.search);
                 
-            $(".btn").click(function(e){
-                e.preventDefault();
-                console.log(mass);
-            });
+                
+
+                $(".btn").click(function(e) {
+                    e.preventDefault();
+                    console.log(mass);
+                });
+            } else {
+                window.location.href = "signIn.html";
+            }
 
         });
 
@@ -114,30 +128,24 @@
             cinemaHallRow = ' ';
             j += 1;
             for (i = 1; i <= numberOfSeats; i++) {
-                // собираем ряды &nbsp
+
                 cinemaHallRow += '<div class="seat" data-row="' + j + '"data-seat="' + i + '"> &nbsp;' + i + ' </div>';
 
             }
-            //собираем зал с проходами между рядами
+
             cinemaHallMap += j + cinemaHallRow + '<div class="passageBetween">&nbsp;</div>';
         });
 
-        //заполняем в html зал номер 1
         $('.zal1').html(cinemaHallMap);
-        // тут по клику определяем что место выкуплено
         $('.seat').on('click', function(e) {
-            // если первый раз кликнули билет выкупили, 
-            // если повторно значит вернули билет
             $(e.currentTarget).toggleClass('bay');
-            //показываем сколько билетов выкуплено
             showBaySeat();
         });
 
         function showBaySeat() {
             result = '';
-            mass=[];
-            i=0;
-            //ищем все места купленные и показываем список выкупленных мест
+            mass = [];
+            i = 0;
             $.each($('.seat.bay'), function(key, item) {
                 mass[i] = [$(item).data().row, $(item).data().seat];
                 i++;
@@ -147,7 +155,32 @@
             });
 
             $('.result').html(result);
-            
+
+        }
+
+        function getSession() {
+            $.ajax({
+                url: serverURL + "sessions/find" + window.location.search,
+                method: "GET",
+                dataType: "json",
+                contentType: "application/json",
+                success: function(response) {
+                    console.log(response);
+                    $('#filmNameHead').append(
+                        `
+                            ${response.film.filmName}
+                        `
+                    )
+
+                }
+            });
+        }
+        
+
+        function parseJwt(token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace('-', '+').replace('_', '/');
+            return JSON.parse(window.atob(base64));
         }
 
     </script>

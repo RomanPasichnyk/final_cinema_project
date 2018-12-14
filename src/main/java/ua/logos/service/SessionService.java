@@ -11,7 +11,7 @@ public interface SessionService {
 
     List<SessionDTO> getAllSession();
 
-    SessionDTO getSessionById(Long id);
+    SessionDTO findSessionById(Long id);
 
     List<SessionDTO> getSessionByFilmId(Long id);
 

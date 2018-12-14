@@ -144,6 +144,12 @@
                     console.log($("#filmTime").val());
 
                 });
+                
+                $("#sessionForm").submit(function(e) {
+                    e.preventDefault();
+                        window.location.href = "hall.html?sessionId=" + $("#filmTime").val();
+                    
+                });
 
                 $('#logoutBtn').on('click', function(e) {
                     window.localStorage.removeItem('auth_token');
@@ -207,7 +213,7 @@
                         let normTime = value.time[0] + ":" + value.time[1];
                         $('#filmTime').append(
                             `
-                                <option value = ${value.time}>${normTime}</option>
+                                <option value = ${value.id}>${normTime}</option>
                             `
                         );
                     });

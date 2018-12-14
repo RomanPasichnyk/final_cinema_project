@@ -65,5 +65,12 @@ public class SessionController {
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
+    @GetMapping("find")
+    public ResponseEntity<?>getSessionById(
+            @RequestParam("sessionId") Long id
+    ) {
+        SessionDTO sessionDTO = sessionService.findSessionById(id);
+        return new ResponseEntity<SessionDTO>(sessionDTO, HttpStatus.OK);
+    }
 
 }
