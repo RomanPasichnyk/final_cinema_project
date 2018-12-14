@@ -27,18 +27,6 @@
                 <li class="nav-item active">
                     <a href="editSessions.html" class="nav-link">Sessions</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navdrop" role="button" data-toggle="dropdown" data-hover="dropdown">Services</a>
-                    <div class="dropdown-menu" aria-labelledby="navdrop">
-                        <a href="#" class="dropdown-item">Service1</a>
-                        <a href="#" class="dropdown-item">Service2</a>
-                        <a href="#" class="dropdown-item">Service3</a>
-                    </div>
-
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Contact Us</a>
-                </li>
             </ul>
 
         </div>
@@ -47,10 +35,44 @@
 
     <section>
         <div class="container">
-            <div class="row" id="films">
-                <h1 class="text-center"><span>Sessions editor</span></h1>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-5 well well-sm mx-auto">
+                    <h1 class="text-center"><span>Sessions editor</span></h1>
+                    <legend><a href="http://www.jquery2dotnet.com"><i class="glyphicon glyphicon-globe"></i></a>Choose session</legend><br>
+                    <form action="#" method="get" class="form" role="form" id="sessionForm">
 
+                        <div>
+                            <select class="form-control" id="filmName">
+                            </select>
+                            <select class="form-control" id="filmDate">
+                            </select>
+                        </div>
 
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="row" id="sessions">
+
+                <a href="addSession.html"><button class="btn btn-success" id="btn-add">Add Session</button></a>
+
+                <table class="table table-striped" id="sessionTable">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Film Name</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
 
             </div>
         </div>
@@ -88,7 +110,145 @@
         let serverURL = 'http://localhost:8080/';
         $(document).ready(function() {
 
+            let token = window.localStorage.getItem('auth_token');
+            if (token) {
+
+                $.ajaxSetup({
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                })
+
+                let role = parseJwt(token).auth;
+
+                if (role === 'ROLE_USER') {
+                    window.location.href = "signIn.html";
+                };
+
+
+                getFilms();
+                let filmId;
+                $("#filmName").change(function(e) {
+                    $('#filmDate').empty();
+                    setTimeout('filmId = $("#filmName").val()', 100);
+                    setTimeout('console.log(filmId)', 100);
+                    setTimeout('getSessionDateByFilmId(filmId)', 200);
+
+                });
+
+                $("#filmDate").change(function(e) {
+                    $('#sessionTable tbody').empty();
+                    console.log($("#filmDate").val());
+                    setTimeout('getSessionDateByFilmIdAndDate(filmId, $("#filmDate").val())', 100);
+                });
+                
+                
+
+                $(document).on('click', '#sessionTable tbody button', function(e) {
+                    console.log(e.target.id);
+                    
+                    let sessionId = e.target.id.split('-')[2];
+                    console.log(sessionId);
+                    var r = confirm("Ви дійсно хочете видалити цей запис?");
+                    if (r == true) {
+                        console.log("YES");
+                        deleteSession(sessionId);
+                    }
+                });
+
+            } else {
+                window.location.href = "signIn.html";
+            }
+
         });
+        
+        function deleteSession(sessionId) {
+            $.ajax({
+                url: serverURL + 'sessions/' + sessionId,
+                method: 'DELETE',
+                dataType: 'json',
+                contentType: 'application/json',
+                complete: function(res) {
+                    if (res.status == 200) {
+                        $('#sessionTable tbody').empty();
+                        setTimeout('getSessionDateByFilmIdAndDate(filmId, $("#filmDate").val())', 100);
+                    }
+                }
+            })
+        }
+
+        function getFilms() {
+            $.ajax({
+                url: serverURL + "films",
+                method: "GET",
+                dataType: "json",
+                contentType: "application/json",
+                success: function(response) {
+                    console.log(response);
+                    $.each(response, function(key, value) {
+                        $('#filmName').append(
+                            `
+                            <option value = ${value.id}>${value.filmName}</option>
+                        `
+                        );
+                    });
+                }
+            });
+        };
+
+        function getSessionDateByFilmId(id) {
+            $.ajax({
+                url: serverURL + "sessions/search/" + id,
+                method: "GET",
+                dataType: "json",
+                contentType: "application/json",
+                success: function(response) {
+                    console.log(response);
+                    $.each(response, function(key, value) {
+                        let normDate = value[0] + "." + value[1] + "." + value[2];
+                        $('#filmDate').append(
+                            `
+                                <option value = ${value}>${normDate}</option>
+                            `
+                        );
+                    });
+                }
+            });
+        }
+
+        function getSessionDateByFilmIdAndDate(id, date) {
+            $.ajax({
+                url: serverURL + "sessions/searchtime/" + id + "?date=" + date,
+                method: "GET",
+                dataType: "json",
+                contentType: "application/json",
+                success: function(response) {
+                    console.log(response);
+                    $.each(response, function(key, value) {
+                        let normTime = value.time[0] + ":" + value.time[1];
+                        $('#sessionTable tbody').append(
+                            `
+                            <tr>
+                                <td>${value.id}</td>
+                                <td>${value.film.filmName}</td>
+                                <td>${value.date}</td>
+                                <td>${value.time}</td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm" id="btn-delete-${value.id}">Delete</button>
+                                </td>
+                            </tr>
+                        `
+                        );
+                    });
+                }
+            });
+        }
+
+        function parseJwt(token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace('-', '+').replace('_', '/');
+            return JSON.parse(window.atob(base64));
+        }
 
     </script>
 

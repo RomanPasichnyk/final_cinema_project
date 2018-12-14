@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ua.logos.domain.SessionDTO;
 import ua.logos.entity.FilmEntity;
 import ua.logos.entity.SessionEntity;
+import ua.logos.exception.ResourceNotFoundException;
 import ua.logos.repository.SessionRepository;
 import ua.logos.service.SessionService;
 import ua.logos.utils.ObjectMapperUtils;
@@ -53,5 +54,13 @@ public class SessionServiceImpl implements SessionService {
         List<SessionEntity> sessionEntities = sessionRepository.findByFilmIdAndDate(id, date);
         List<SessionDTO> sessionDTOS = modelMapper.mapAll(sessionEntities, SessionDTO.class);
         return sessionDTOS;
+    }
+
+    @Override
+    public void deleteSessionById(Long id) {
+        SessionEntity sessionEntity = sessionRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Could not delete film with id[" + id + "]. Not Found!")
+        );
+        sessionRepository.deleteById(id);
     }
 }

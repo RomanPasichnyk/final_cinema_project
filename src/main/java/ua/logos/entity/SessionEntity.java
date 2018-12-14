@@ -23,11 +23,11 @@ public class SessionEntity extends BaseEntity {
     @Column(columnDefinition = "DATE")
     private LocalDate date;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "film_id")
     private FilmEntity film;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "hall_id")
     private HallEntity hall;
 

@@ -27,18 +27,6 @@
                 <li class="nav-item">
                     <a href="editSessions.html" class="nav-link">Sessions</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navdrop" role="button" data-toggle="dropdown" data-hover="dropdown">Services</a>
-                    <div class="dropdown-menu" aria-labelledby="navdrop">
-                        <a href="#" class="dropdown-item">Service1</a>
-                        <a href="#" class="dropdown-item">Service2</a>
-                        <a href="#" class="dropdown-item">Service3</a>
-                    </div>
-
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Contact Us</a>
-                </li>
             </ul>
 
         </div>
@@ -102,27 +90,46 @@
     <script>
         let serverURL = 'http://localhost:8080/';
         $(document).ready(function() {
-            getFilms();
 
-            $(document).on('click', '#filmsTable tbody button', function(e) {
-                console.log(e.target.id);
+            let token = window.localStorage.getItem('auth_token');
+            if (token) {
 
-                let filmId = e.target.id.split('-')[2];
-                let ans = e.target.id.split('-')[1];
-                if (ans == "delete") {
-                    var r = confirm("Ви дійсно хочете видалити цей запис?");
-                    if (r == true) {
-                        deleteFilm(filmId);
+                $.ajaxSetup({
+                    headers: {
+                        'Authorization': 'Bearer ' + token
                     }
-                } else {
-                    var r = confirm("Ви дійсно хочете редагувати цей запис?");
-                    if (r == true) {
-                        alert("Success");
+                })
+                
+                let role = parseJwt(token).auth;
+
+                if (role === 'ROLE_USER') {
+                    window.location.href = "signIn.html";
+                };
+
+                getFilms();
+
+                $(document).on('click', '#filmsTable tbody button', function(e) {
+                    console.log(e.target.id);
+
+                    let filmId = e.target.id.split('-')[2];
+                    let ans = e.target.id.split('-')[1];
+                    if (ans == "delete") {
+                        var r = confirm("Ви дійсно хочете видалити цей запис?");
+                        if (r == true) {
+                            deleteFilm(filmId);
+                        }
+                    } else {
+                        var r = confirm("Ви дійсно хочете редагувати цей запис?");
+                        if (r == true) {
+                            alert("Success");
+                        }
                     }
-                }
 
 
-            });
+                });
+            } else {
+                window.location.href = "signIn.html";
+            }
 
         });
 
@@ -185,6 +192,12 @@
                     }
                 }
             })
+        }
+
+        function parseJwt(token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace('-', '+').replace('_', '/');
+            return JSON.parse(window.atob(base64));
         }
 
     </script>

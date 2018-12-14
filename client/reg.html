@@ -24,26 +24,11 @@
                 <li class="nav-item">
                     <a href="sessions.html" class="nav-link">Sessions</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navdrop" role="button" data-toggle="dropdown" data-hover="dropdown">Services</a>
-                    <div class="dropdown-menu" aria-labelledby="navdrop">
-                        <a href="#" class="dropdown-item">Service1</a>
-                        <a href="#" class="dropdown-item">Service2</a>
-                        <a href="#" class="dropdown-item">Service3</a>
-                    </div>
-
-                </li>
                 <li class="nav-item">
                     <a href="contactUs.html" class="nav-link">Contact Us</a>
                 </li>
             </ul>
-            <ul class="navbar-nav offset-md-9">
-                <li class="nav-item active">
-                    <a href="reg.html" class="nav-link">Sign Up</a>
-                </li>
-                <li class="nav-item">
-                    <a href="signIn.html" class="nav-link">Sign In</a>
-                </li>
+            <ul class="navbar-nav offset-md-9" id="sign">
             </ul>
         </div>
     </nav>
@@ -192,10 +177,18 @@
         let serverURL = "http://localhost:8080/";
         $(document).ready(function() {
 
-            $("#signUpForm").submit(function(e) {
-                e.preventDefault();
-                addUser();
-            });
+            let token = window.localStorage.getItem('auth_token');
+            if (!token) {
+                
+                base();
+
+                $("#signUpForm").submit(function(e) {
+                    e.preventDefault();
+                    addUser();
+                });
+            } else {
+                window.location.href="films.html";
+            }
 
         })
 
@@ -235,11 +228,24 @@
                 data: JSON.stringify(user),
                 complete: function(data) {
                     if (data.status == 201) {
-                        window.location.href="signIn.html";
+                        window.location.href = "signIn.html";
                     }
                 }
             })
         }
+
+        function base() {
+            $('#sign').append(
+                `
+                <li class="nav-item active">
+                    <a href="reg.html" class="nav-link">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a href="signIn.html" class="nav-link">Sign In</a>
+                </li>
+                `
+            )
+        };
 
     </script>
 </body>

@@ -18,34 +18,18 @@
         </button>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a href="films.html" class="nav-link">Films</a>
                 </li>
                 <li class="nav-item">
                     <a href="sessions.html" class="nav-link">Sessions</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navdrop" role="button" data-toggle="dropdown" data-hover="dropdown">Services</a>
-                    <div class="dropdown-menu" aria-labelledby="navdrop">
-                        <a href="#" class="dropdown-item">Service1</a>
-                        <a href="#" class="dropdown-item">Service2</a>
-                        <a href="#" class="dropdown-item">Service3</a>
-                    </div>
-
-                </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Contact Us</a>
+                    <a href="contactUs.html" class="nav-link">Contact Us</a>
                 </li>
             </ul>
-            <ul class="navbar-nav offset-md-9">
-                <li class="nav-item">
-                    <a href="reg.html" class="nav-link">Sign Up</a>
-                </li>
-                <li class="nav-item">
-                    <a href="signIn.html" class="nav-link">Sign In</a>
-                </li>
+            <ul class="navbar-nav offset-md-9" id="sign">
             </ul>
-
         </div>
     </nav>
 
@@ -101,10 +85,27 @@
     <script>
         let serverURL = 'http://localhost:8080/';
         $(document).ready(function() {
-            $("#signInForm").submit(function(e) {
-                e.preventDefault();
-                signin();
-            });
+
+            let token = window.localStorage.getItem('auth_token');
+            if (!token) {
+
+                base();
+
+
+                $.ajaxSetup({
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                })
+
+
+                $("#signInForm").submit(function(e) {
+                    e.preventDefault();
+                    signin();
+                });
+            } else {
+                window.location.href="films.html";
+            }
         });
 
         function signin() {
@@ -127,9 +128,9 @@
                     if (data.status == 200) {
                         let token = data.responseJSON.token;
                         window.localStorage.setItem('auth_token', token);
-                        
+
                         let role = parseJwt(token).auth;
-                        
+
                         if (role === 'ROLE_USER') {
                             alert('Your role : ' + role);
                             // window.location.href = 'user.html';
@@ -138,8 +139,8 @@
                             alert('Your role : ' + role);
                         }
                         window.location.href = 'films.html';
-                        
-                        
+
+
                     }
                 }
             })
@@ -150,6 +151,19 @@
             var base64 = base64Url.replace('-', '+').replace('_', '/');
             return JSON.parse(window.atob(base64));
         }
+        
+        function base() {
+            $('#sign').append(
+                `
+                <li class="nav-item">
+                    <a href="reg.html" class="nav-link">Sign Up</a>
+                </li>
+                <li class="nav-item active">
+                    <a href="signIn.html" class="nav-link">Sign In</a>
+                </li>
+                `
+            )
+        };
 
     </script>
 

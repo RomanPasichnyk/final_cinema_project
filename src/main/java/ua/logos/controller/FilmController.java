@@ -2,14 +2,19 @@ package ua.logos.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ua.logos.domain.FilmDTO;
+import ua.logos.domain.UserDTO;
 import ua.logos.service.FileStorageService;
 import ua.logos.service.FilmService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -63,6 +68,32 @@ public class FilmController {
     public ResponseEntity<?> getFilmByName(@RequestParam("filmName") String filmName) {
         FilmDTO filmDTO = filmService.findFilmByName(filmName);
         return new ResponseEntity<FilmDTO>(filmDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("image/{filmId}")
+    public ResponseEntity<?> getImage(
+            @PathVariable("filmId") Long id,
+            HttpServletRequest request
+    ) {
+        FilmDTO filmDTO = filmService.findFilmById(id);
+        String fileName = filmDTO.getImage();
+        Resource resource = fileStorageService.loadFile(fileName);
+
+        String contentType = null;
+
+        try {
+            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (contentType == null) {
+            contentType = "application/octet-stream";
+        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline: filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
     }
 
 

@@ -27,18 +27,6 @@
                 <li class="nav-item">
                     <a href="editSessions.html" class="nav-link">Sessions</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navdrop" role="button" data-toggle="dropdown" data-hover="dropdown">Services</a>
-                    <div class="dropdown-menu" aria-labelledby="navdrop">
-                        <a href="#" class="dropdown-item">Service1</a>
-                        <a href="#" class="dropdown-item">Service2</a>
-                        <a href="#" class="dropdown-item">Service3</a>
-                    </div>
-
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Contact Us</a>
-                </li>
             </ul>
 
         </div>
@@ -99,6 +87,7 @@
     </section>
 
 
+
     <!--footer starts from here-->
     <footer class="footer">
         <div class="container">
@@ -131,13 +120,29 @@
         let filmName = "";
         $(document).ready(function() {
 
-            $("#addFilmForm").submit(function(e) {
-                e.preventDefault();
+            let token = window.localStorage.getItem('auth_token');
+            if (token) {
 
-                setTimeout("filmName = addFilm()", 100);
-                setTimeout("console.log('met - ' + filmName)", 100);
-                setTimeout("findByName(filmName)", 150);
-            });
+                $.ajaxSetup({
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                })
+                
+                let role = parseJwt(token).auth;
+
+                if (role === 'ROLE_USER') {
+                    window.location.href = "signIn.html";
+                };
+
+                $("#addFilmForm").submit(function(e) {
+                    e.preventDefault();
+
+                    setTimeout("filmName = addFilm()", 100);
+                    setTimeout("console.log('met - ' + filmName)", 350);
+                    setTimeout("findByName(filmName)", 600);
+                });
+            }
 
         });
 
@@ -173,7 +178,7 @@
                 data: JSON.stringify(film),
                 complete: function(data) {
                     if (data.status == 201) {
-                        alert('film added');                
+                        alert('film added');
                     }
                 }
             })
@@ -222,6 +227,12 @@
                     $('#addFilmForm')[0].reset();
                 }
             })
+        }
+
+        function parseJwt(token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace('-', '+').replace('_', '/');
+            return JSON.parse(window.atob(base64));
         }
 
     </script>

@@ -40,14 +40,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/auth/signup").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/signin").permitAll()
+                .antMatchers(HttpMethod.GET, "/films/image/**").permitAll()
 
                 .and()
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/films").hasRole("ADMIN")
                 .antMatchers("/users/**").hasAnyRole("ADMIN", "USER")
-                .antMatchers(HttpMethod.GET, "/films").hasAnyRole("ADMIN", "USER")
                 .antMatchers(HttpMethod.GET, "/films/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET, "/films").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.POST, "/sessions").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/sessions/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/sessions").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET, "/halls").hasAnyRole("ADMIN", "USER")
                 .anyRequest().authenticated();
 
         http.exceptionHandling().authenticationEntryPoint(unauthorizeHandler)

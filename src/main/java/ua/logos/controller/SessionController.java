@@ -59,5 +59,11 @@ public class SessionController {
         return new ResponseEntity<List<SessionDTO>>(sessionDTOS, HttpStatus.OK);
     }
 
+    @DeleteMapping("{sessionId}")
+    public ResponseEntity<?> deleteFilm(@PathVariable("sessionId") Long id) {
+        sessionService.deleteSessionById(id);
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
 
 }
