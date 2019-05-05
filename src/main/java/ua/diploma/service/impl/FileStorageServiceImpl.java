@@ -32,9 +32,9 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public String storeFile(MultipartFile file) {
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
+    public String storeFile(MultipartFile file, String fileId) {
+//        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName = fileId;
         Path targetLocation = null;
 
         try {

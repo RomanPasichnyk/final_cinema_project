@@ -4,10 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ua.logos.entity.FilmEntity;
-import ua.logos.entity.HallEntity;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
@@ -24,6 +22,8 @@ public class SessionDTO {
 
     private FilmEntity film;
 
-    private HallEntity hall;
+    private String linkSession;
+
+    private String nameCinema;
 
 }

@@ -67,6 +67,12 @@ public class UserController {
         return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
     }
 
+    @GetMapping("find")
+    public ResponseEntity<?> getUserByEmail(@RequestParam("email") String email){
+        UserDTO userDTO = userService.findUserByEmail(email);
+        return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
+    }
+
     @GetMapping("search")
     public ResponseEntity<?> getUserByEmailOrName(
             @RequestParam("email") String email,
@@ -81,9 +87,9 @@ public class UserController {
             @PathVariable("userId") Long id,
             @RequestParam("file") MultipartFile file
     ) {
-        fileStorageService.storeFile(file);
+        fileStorageService.storeFile(file, "user_id_" + id + getFileExtension(file));
         UserDTO userDTO = userService.findUserById(id);
-        userDTO.setImage(file.getOriginalFilename());
+        userDTO.setImage("user_id_" + id + getFileExtension(file));
         userService.saveUser(userDTO);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
@@ -112,6 +118,15 @@ public class UserController {
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline: filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
+    }
+
+    private String getFileExtension(MultipartFile file) {
+        String name = file.getOriginalFilename();
+        int lastIndexOf = name.lastIndexOf(".");
+        if (lastIndexOf == -1) {
+            return ""; // empty extension
+        }
+        return name.substring(lastIndexOf);
     }
 
 }

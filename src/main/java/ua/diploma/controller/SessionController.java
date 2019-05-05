@@ -73,4 +73,20 @@ public class SessionController {
         return new ResponseEntity<SessionDTO>(sessionDTO, HttpStatus.OK);
     }
 
+    @GetMapping("searchByAll")
+    public ResponseEntity<?> getSessionByFilmIdAndDateAndNameCinema(
+            @RequestParam("filmId") Long filmId,
+            @RequestParam("date") String date,
+            @RequestParam("nameCinema") String nameCinema
+    ){
+        LocalDate normDate = null;
+        if(date.equals("now")) {
+            normDate = LocalDate.now();
+        } else {
+            String[] datee = date.split("-");
+            normDate = LocalDate.of(Integer.valueOf(datee[0]), Integer.valueOf(datee[1]), Integer.valueOf(datee[2]));
+        }
+        List<SessionDTO> sessionDTOS = sessionService.getSessionByFilmIdAndDateAndNameCinema(filmId, normDate, nameCinema);
+        return new ResponseEntity<List<SessionDTO>>(sessionDTOS, HttpStatus.OK);
+    }
 }

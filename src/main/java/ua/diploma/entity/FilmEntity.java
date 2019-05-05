@@ -38,6 +38,9 @@ public class FilmEntity extends BaseEntity {
     @Column(name = "image")
     private String image;
 
+    @Column(name = "link_trailer")
+    private String linkTrailer;
+
     @Enumerated
     @ElementCollection(targetClass = GenreEnum.class)
     private List<GenreEnum> genre;

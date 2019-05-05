@@ -14,4 +14,6 @@ public interface SessionRepository extends JpaRepository<SessionEntity, Long> {
 
     List<SessionEntity> findByFilmIdAndDate(Long id, LocalDate date);
 
+    List<SessionEntity> findByFilmIdAndDateAndNameCinema(Long id, LocalDate date, String nameCinema);
+
 }

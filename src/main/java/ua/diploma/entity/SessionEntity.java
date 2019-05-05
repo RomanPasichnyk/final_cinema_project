@@ -27,8 +27,10 @@ public class SessionEntity extends BaseEntity {
     @JoinColumn(name = "film_id")
     private FilmEntity film;
 
-    @ManyToOne
-    @JoinColumn(name = "hall_id")
-    private HallEntity hall;
+    @Column(name = "link_session")
+    private String linkSession;
+
+    @Column(name = "name_cinema")
+    private String nameCinema;
 
 }

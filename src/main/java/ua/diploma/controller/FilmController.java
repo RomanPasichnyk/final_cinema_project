@@ -15,6 +15,8 @@ import ua.logos.service.FileStorageService;
 import ua.logos.service.FilmService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.nio.file.Files;
 import java.util.List;
 
 @RestController
@@ -59,8 +61,9 @@ public class FilmController {
             @RequestParam("file") MultipartFile file
     ) {
         System.out.println(file.getOriginalFilename());
-        fileStorageService.storeFile(file);
-        filmService.addImageToFilm(file.getOriginalFilename(), id);
+        fileStorageService.storeFile(file, "film_id_" + id + getFileExtension(file));
+        filmService.addImageToFilm("film_id_" + id + getFileExtension(file), id);
+        System.out.println("film_id_" + id + getFileExtension(file));
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
@@ -94,6 +97,15 @@ public class FilmController {
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline: filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
+    }
+
+    private String getFileExtension(MultipartFile file) {
+        String name = file.getOriginalFilename();
+        int lastIndexOf = name.lastIndexOf(".");
+        if (lastIndexOf == -1) {
+            return ""; // empty extension
+        }
+        return name.substring(lastIndexOf);
     }
 
 

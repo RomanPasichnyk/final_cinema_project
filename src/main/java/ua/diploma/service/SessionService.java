@@ -19,4 +19,6 @@ public interface SessionService {
 
     void deleteSessionById(Long id);
 
+    List<SessionDTO> getSessionByFilmIdAndDateAndNameCinema(Long id, LocalDate date, String nameCinema);
+
 }

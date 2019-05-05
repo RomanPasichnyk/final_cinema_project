@@ -38,4 +38,6 @@ public class FilmDTO {
 
     private int duration;
 
+    private String linkTrailer;
+
 }

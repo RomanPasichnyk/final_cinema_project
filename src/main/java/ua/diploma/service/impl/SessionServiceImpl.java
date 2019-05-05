@@ -65,4 +65,12 @@ public class SessionServiceImpl implements SessionService {
         );
         sessionRepository.deleteById(id);
     }
+
+    @Override
+    public List<SessionDTO> getSessionByFilmIdAndDateAndNameCinema(Long id, LocalDate date, String nameCinema) {
+
+        List<SessionEntity> sessionEntities = sessionRepository.findByFilmIdAndDateAndNameCinema(id, date, nameCinema);
+        List<SessionDTO> sessionDTOS = modelMapper.mapAll(sessionEntities, SessionDTO.class);
+        return sessionDTOS;
+    }
 }
