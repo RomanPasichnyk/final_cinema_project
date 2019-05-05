@@ -1,15 +1,13 @@
-package ua.logos.service.impl;
+package ua.diploma.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import ua.logos.domain.UserDTO;
-import ua.logos.entity.UserEntity;
-import ua.logos.exception.ResourceNotFoundException;
-import ua.logos.repository.UserRepository;
-import ua.logos.service.UserService;
-import ua.logos.utils.ObjectMapperUtils;
+import ua.diploma.domain.UserDTO;
+import ua.diploma.entity.UserEntity;
+import ua.diploma.exception.ResourceNotFoundException;
+import ua.diploma.utils.ObjectMapperUtils;
+import ua.diploma.repository.UserRepository;
+import ua.diploma.service.UserService;
 
 import java.util.List;
 

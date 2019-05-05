@@ -1,8 +1,8 @@
-package ua.logos.repository;
+package ua.diploma.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ua.logos.entity.RoleEntity;
+import ua.diploma.entity.RoleEntity;
 
 import java.util.Optional;
 

@@ -1,6 +1,6 @@
-package ua.logos.service;
+package ua.diploma.service;
 
-import ua.logos.domain.UserDTO;
+import ua.diploma.domain.UserDTO;
 
 import java.util.List;
 

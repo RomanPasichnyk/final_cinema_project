@@ -1,4 +1,4 @@
-package ua.logos.exception;
+package ua.diploma.exception;
 
 
 import org.springframework.http.HttpStatus;

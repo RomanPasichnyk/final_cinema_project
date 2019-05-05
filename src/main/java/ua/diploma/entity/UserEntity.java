@@ -1,10 +1,10 @@
-package ua.logos.entity;
+package ua.diploma.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ua.logos.enums.GenderEnum;
-import ua.logos.enums.GenreEnum;
+import ua.diploma.enums.GenderEnum;
+import ua.diploma.enums.GenreEnum;
 
 import javax.persistence.*;
 import java.time.LocalDate;

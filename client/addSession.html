@@ -13,10 +13,10 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark">
         <a href="#" class="navbar-brand">Cinema | Admin</a>
-        <button class="navbar-toggler" type="button" data-target="#navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse">
+        <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a href="films.html" class="nav-link">Cinema</a>
@@ -49,9 +49,19 @@
                             <input class="form-control" id="date" type="date" /><br>
                             <label>Time</label>
                             <input class="form-control" id="time" type="time" /><br>
-                            <label>Hall</label>
-                            <select class="form-control" id="hall">
+                            <label>Cinema name</label>
+                            <select class="form-control" id="nameCinema">
+                                <option value="Lviv Film Center">Lviv Film Center (Волод. Великого 18)</option>
+                                <option value="Cinema Copernyk">Кінопалац "Коперник" (Коперника 9)</option>
+                                <option value="Multiplex">Мультіплекс «Victoria Gardens» (Кульпарківська 226а)</option>
+                                <option value="King Cross">Планета кіно (King Cross) (Стрийська 30)</option>
+                                <option value="Cinema Teatralna">Кінопалац (Театральна 22)</option>
+                                <option value="Cinema Dovzhenka">Кінопалац ім. Довженка (Червоної Калини 81)</option>
+                                <option value="Forum">Планета кіно (Forum Lviv) (Під Дубом 7Б)</option>
                             </select>
+                            <br>
+                            <label>Link session</label>
+                            <input class="form-control" id="linkSession" type="text" /><br>
                         </div>
 
                         <br>
@@ -106,7 +116,6 @@
                 })
 
                 getFilms();
-                getHalls();
 
                 $("#addSessionForm").submit(function(e) {
                     e.preventDefault();
@@ -123,18 +132,18 @@
             let filmId = $("#filmName").val();
             let date = $("#date").val();
             let time = $("#time").val();
-            let hallId = $("#hall").val();
+            let nameCinema = $("#nameCinema").val();
+            let linkSession = $("#linkSession").val();
 
 
             let session = {
                 film: {
                     id: filmId
                 },
-                hall: {
-                    id: hallId
-                },
+                nameCinema: nameCinema,
                 date: date,
                 time: time,
+                linkSession: linkSession
             };
             console.log(session);
 
@@ -172,24 +181,6 @@
             });
         };
 
-        function getHalls() {
-            $.ajax({
-                url: serverURL + "halls",
-                method: "GET",
-                dataType: "json",
-                contentType: "application/json",
-                success: function(response) {
-                    console.log(response);
-                    $.each(response, function(key, value) {
-                        $('#hall').append(
-                            `
-                            <option value = ${value.id}>Number: ${value.numberHall}</option>
-                        `
-                        );
-                    });
-                }
-            });
-        };
 
         function parseJwt(token) {
             var base64Url = token.split('.')[1];

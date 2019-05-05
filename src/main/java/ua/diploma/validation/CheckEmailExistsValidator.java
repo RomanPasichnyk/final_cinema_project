@@ -1,8 +1,8 @@
-package ua.logos.validation;
+package ua.diploma.validation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ua.logos.repository.UserRepository;
+import ua.diploma.repository.UserRepository;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

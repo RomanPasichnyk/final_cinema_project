@@ -1,13 +1,13 @@
-package ua.logos.service.impl;
+package ua.diploma.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.logos.domain.FilmDTO;
-import ua.logos.entity.FilmEntity;
-import ua.logos.exception.ResourceNotFoundException;
-import ua.logos.repository.FilmRepository;
-import ua.logos.service.FilmService;
-import ua.logos.utils.ObjectMapperUtils;
+import ua.diploma.exception.ResourceNotFoundException;
+import ua.diploma.utils.ObjectMapperUtils;
+import ua.diploma.domain.FilmDTO;
+import ua.diploma.entity.FilmEntity;
+import ua.diploma.repository.FilmRepository;
+import ua.diploma.service.FilmService;
 
 import java.util.List;
 

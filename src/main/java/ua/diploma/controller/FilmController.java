@@ -1,4 +1,4 @@
-package ua.logos.controller;
+package ua.diploma.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +9,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ua.logos.domain.FilmDTO;
-import ua.logos.domain.UserDTO;
-import ua.logos.service.FileStorageService;
-import ua.logos.service.FilmService;
+import ua.diploma.service.FileStorageService;
+import ua.diploma.domain.FilmDTO;
+import ua.diploma.service.FilmService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.nio.file.Files;
 import java.util.List;
 
 @RestController

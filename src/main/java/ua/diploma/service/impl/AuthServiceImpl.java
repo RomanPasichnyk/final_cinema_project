@@ -1,6 +1,5 @@
-package ua.logos.service.impl;
+package ua.diploma.service.impl;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -8,17 +7,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ua.logos.config.jwt.JwtTokenProvider;
-import ua.logos.domain.SigninRequest;
-import ua.logos.domain.UserDTO;
-import ua.logos.entity.RoleEntity;
-import ua.logos.entity.UserEntity;
-import ua.logos.exception.AlreadyExistsException;
-import ua.logos.exception.ResourceNotFoundException;
-import ua.logos.repository.RoleRepository;
-import ua.logos.repository.UserRepository;
-import ua.logos.service.AuthService;
-import ua.logos.utils.ObjectMapperUtils;
+import ua.diploma.domain.SigninRequest;
+import ua.diploma.domain.UserDTO;
+import ua.diploma.entity.UserEntity;
+import ua.diploma.repository.RoleRepository;
+import ua.diploma.utils.ObjectMapperUtils;
+import ua.diploma.config.jwt.JwtTokenProvider;
+import ua.diploma.entity.RoleEntity;
+import ua.diploma.exception.AlreadyExistsException;
+import ua.diploma.exception.ResourceNotFoundException;
+import ua.diploma.repository.UserRepository;
+import ua.diploma.service.AuthService;
 
 import java.util.HashSet;
 import java.util.Set;

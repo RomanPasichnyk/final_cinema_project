@@ -1,4 +1,4 @@
-package ua.logos.enums;
+package ua.diploma.enums;
 
 public enum GenreEnum {
 

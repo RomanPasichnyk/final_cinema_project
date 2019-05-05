@@ -1,7 +1,7 @@
-package ua.logos.service;
+package ua.diploma.service;
 
 
-import ua.logos.domain.FilmDTO;
+import ua.diploma.domain.FilmDTO;
 
 import java.util.List;
 

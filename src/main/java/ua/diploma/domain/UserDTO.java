@@ -1,10 +1,14 @@
-package ua.logos.domain;
+package ua.diploma.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ua.logos.enums.GenderEnum;
-import ua.logos.enums.GenreEnum;
+import ua.diploma.enums.GenderEnum;
+import ua.diploma.enums.GenreEnum;
+import ua.diploma.validation.CheckAgeCorrect;
+import ua.diploma.validation.CheckEmailCorrect;
+import ua.diploma.validation.CheckPhoneNumberCorrect;
+import ua.diploma.validation.CheckPhoneNumberExists;
 import ua.logos.validation.*;
 
 import javax.validation.constraints.NotNull;

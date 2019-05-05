@@ -1,6 +1,6 @@
-package ua.logos.service;
+package ua.diploma.service;
 
-import ua.logos.domain.SessionDTO;
+import ua.diploma.domain.SessionDTO;
 
 import java.time.LocalDate;
 import java.util.List;

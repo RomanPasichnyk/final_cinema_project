@@ -1,4 +1,4 @@
-package ua.logos.utils;
+package ua.diploma.utils;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;

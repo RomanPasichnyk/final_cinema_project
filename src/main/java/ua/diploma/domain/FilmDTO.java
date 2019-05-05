@@ -1,9 +1,9 @@
-package ua.logos.domain;
+package ua.diploma.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ua.logos.enums.GenreEnum;
+import ua.diploma.enums.GenreEnum;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;

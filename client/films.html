@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="icon.jpg">
     <title>Cinema</title>
     <link href="public/css/bootstrap.min.css" rel="stylesheet">
     <link href="public/css/navbar_footer.css" rel="stylesheet">
@@ -13,11 +14,12 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark">
         <a href="#" class="navbar-brand">Cinema</a>
-        <button class="navbar-toggler" type="button" data-target="#navigation">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav" id="head">
+        <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
+            <ul class="navbar-nav mr-auto" id="head">
                 <li class="nav-item active">
                     <a href="films.html" class="nav-link">Films</a>
                 </li>
@@ -29,13 +31,23 @@
                     <a href="#" class="nav-link">Contact Us</a>
                 </li>
             </ul>
-            <ul class="navbar-nav offset-md-9">
-                <li class="nav-item">
-                    <a href="signIn.html" class="nav-link" id="logoutBtn">Log Out</a>
-                </li>
-            </ul>
 
+            <form class="form-inline my-2 my-lg-0">
+                <ul class="navbar-nav my-2 my-sm-0">
+                   <li class="nav-item" id="profileBtn">
+                        
+                        
+                    </li>
+                    <li class="nav-item">
+                        <a href="signIn.html" class="nav-link" id="logoutBtn">Log Out</a>
+                    </li>
+                    
+                </ul>
+            </form>
         </div>
+
+
+
     </nav>
 
 
@@ -43,7 +55,7 @@
         <div class="container">
             <div class="row" id="films">
                 <h1 class="text-center"><span>Films</span></h1>
-                
+
             </div>
         </div>
     </section>
@@ -81,6 +93,7 @@
         $(document).ready(function() {
             let token = window.localStorage.getItem('auth_token');
             if (token) {
+                let userEmail = parseJwt(token).sub;
                 let role = parseJwt(token).auth;
                 if (role === 'ROLE_ADMIN') {
                     $('#head').append(
@@ -96,7 +109,8 @@
                         'Authorization': 'Bearer ' + token
                     }
                 })
-
+                
+                getUserByEmail(userEmail);
                 getFilms();
 
                 $('#logoutBtn').on('click', function(e) {
@@ -142,6 +156,23 @@
                     });
                 }
             });
+        }
+        
+        function getUserByEmail(userEmail) {
+            
+            $.ajax({
+                url: serverURL + "users/find?email=" + userEmail,
+                method: "GET",
+                dataType: "json",
+                contentType: "application/json",
+                success: function(response) {
+                    $('#profileBtn').append(
+                    `
+                        <a href="profile.html?id=${response.id}" class="nav-link" id="profileBtn">Profile</a>
+                    `)
+
+                }
+            })
         }
 
 

@@ -1,4 +1,4 @@
-package ua.logos.config;
+package ua.diploma.config;
 
 public class SecurityConstants {
 

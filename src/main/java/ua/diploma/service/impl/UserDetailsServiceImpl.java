@@ -1,4 +1,4 @@
-package ua.logos.service.impl;
+package ua.diploma.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ua.logos.entity.UserEntity;
-import ua.logos.repository.UserRepository;
+import ua.diploma.entity.UserEntity;
+import ua.diploma.repository.UserRepository;
 
 import java.util.HashSet;
 import java.util.Set;

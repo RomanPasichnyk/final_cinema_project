@@ -1,15 +1,13 @@
-package ua.logos.service.impl;
+package ua.diploma.service.impl;
 
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.logos.domain.SessionDTO;
-import ua.logos.entity.FilmEntity;
-import ua.logos.entity.SessionEntity;
-import ua.logos.exception.ResourceNotFoundException;
-import ua.logos.repository.SessionRepository;
-import ua.logos.service.SessionService;
-import ua.logos.utils.ObjectMapperUtils;
+import ua.diploma.service.SessionService;
+import ua.diploma.utils.ObjectMapperUtils;
+import ua.diploma.domain.SessionDTO;
+import ua.diploma.entity.SessionEntity;
+import ua.diploma.exception.ResourceNotFoundException;
+import ua.diploma.repository.SessionRepository;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,4 +1,4 @@
-package ua.logos.controller;
+package ua.diploma.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ua.logos.domain.ErrorDTO;
-import ua.logos.domain.SigninRequest;
-import ua.logos.domain.SigninResponse;
-import ua.logos.domain.UserDTO;
-import ua.logos.service.AuthService;
+import ua.diploma.domain.UserDTO;
+import ua.diploma.domain.ErrorDTO;
+import ua.diploma.domain.SigninRequest;
+import ua.diploma.domain.SigninResponse;
+import ua.diploma.service.AuthService;
 
 import javax.validation.Valid;
 

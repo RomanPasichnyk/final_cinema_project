@@ -1,9 +1,9 @@
-package ua.logos.domain;
+package ua.diploma.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ua.logos.entity.FilmEntity;
+import ua.diploma.entity.FilmEntity;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

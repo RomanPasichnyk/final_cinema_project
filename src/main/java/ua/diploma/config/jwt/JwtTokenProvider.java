@@ -1,4 +1,4 @@
-package ua.logos.config.jwt;
+package ua.diploma.config.jwt;
 
 import io.jsonwebtoken.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import ua.logos.config.SecurityConstants;
+import ua.diploma.config.SecurityConstants;
 
 import java.util.Arrays;
 import java.util.Collection;

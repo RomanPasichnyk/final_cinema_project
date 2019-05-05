@@ -1,4 +1,4 @@
-package ua.logos.domain;
+package ua.diploma.domain;
 
 
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package ua.logos.controller;
+package ua.diploma.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ua.logos.domain.ErrorDTO;
-import ua.logos.domain.UserDTO;
-import ua.logos.service.FileStorageService;
-import ua.logos.service.UserService;
+import ua.diploma.domain.ErrorDTO;
+import ua.diploma.domain.UserDTO;
+import ua.diploma.service.FileStorageService;
+import ua.diploma.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.nio.file.Files;
 import java.util.List;
 
 @RestController

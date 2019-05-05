@@ -1,8 +1,8 @@
-package ua.logos.repository;
+package ua.diploma.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ua.logos.entity.SessionEntity;
+import ua.diploma.entity.SessionEntity;
 
 import java.time.LocalDate;
 import java.util.List;

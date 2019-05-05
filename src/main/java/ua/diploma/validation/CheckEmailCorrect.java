@@ -1,4 +1,4 @@
-package ua.logos.validation;
+package ua.diploma.validation;
 
 
 import javax.validation.Constraint;

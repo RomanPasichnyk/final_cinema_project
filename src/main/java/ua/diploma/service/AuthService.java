@@ -1,10 +1,7 @@
-package ua.logos.service;
+package ua.diploma.service;
 
-import ua.logos.domain.FilmDTO;
-import ua.logos.domain.SigninRequest;
-import ua.logos.domain.UserDTO;
-
-import java.util.List;
+import ua.diploma.domain.SigninRequest;
+import ua.diploma.domain.UserDTO;
 
 public interface AuthService {
 

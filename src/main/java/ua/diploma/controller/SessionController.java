@@ -1,15 +1,12 @@
-package ua.logos.controller;
+package ua.diploma.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.logos.domain.SessionDTO;
-import ua.logos.service.SessionService;
+import ua.diploma.domain.SessionDTO;
+import ua.diploma.service.SessionService;
 
-import javax.websocket.Session;
-import javax.websocket.server.PathParam;
-import java.sql.Array;
 import java.time.LocalDate;
 import java.util.*;
 

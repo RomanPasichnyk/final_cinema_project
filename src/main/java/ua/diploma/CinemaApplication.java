@@ -1,13 +1,11 @@
-package ua.logos;
+package ua.diploma;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import ua.logos.entity.RoleEntity;
-import ua.logos.repository.RoleRepository;
-
-import java.io.BufferedReader;
+import ua.diploma.entity.RoleEntity;
+import ua.diploma.repository.RoleRepository;
 
 @SpringBootApplication
 public class CinemaApplication implements CommandLineRunner {

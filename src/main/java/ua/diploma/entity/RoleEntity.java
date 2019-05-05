@@ -1,4 +1,4 @@
-package ua.logos.entity;
+package ua.diploma.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

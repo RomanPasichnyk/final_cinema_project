@@ -1,4 +1,4 @@
-package ua.logos.service;
+package ua.diploma.service;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;

@@ -1,11 +1,10 @@
-package ua.logos.service.impl;
+package ua.diploma.service.impl;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import ua.logos.service.FileStorageService;
+import ua.diploma.service.FileStorageService;
 
 import java.net.MalformedURLException;
 import java.nio.file.Files;
