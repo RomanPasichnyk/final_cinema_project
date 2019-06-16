@@ -9,7 +9,7 @@ import ua.diploma.validation.CheckAgeCorrect;
 import ua.diploma.validation.CheckEmailCorrect;
 import ua.diploma.validation.CheckPhoneNumberCorrect;
 import ua.diploma.validation.CheckPhoneNumberExists;
-import ua.logos.validation.*;
+import ua.diploma.validation.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

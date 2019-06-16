@@ -30,8 +30,8 @@
             </ul>
              <form class="form-inline my-2 my-lg-0">
                 <ul class="navbar-nav my-2 my-sm-0">
-                   <li class="nav-item">
-                        <a href="profile.html" class="nav-link" id="profileBtn">Profile</a>
+                   <li class="nav-item" id="profileBtn">
+                       
                     </li>
                     <li class="nav-item">
                         <a href="signIn.html" class="nav-link" id="logoutBtn">Log Out</a>
@@ -61,14 +61,14 @@
 
                             <select class="form-control" id="filmDate">
                             </select>
-                            <select class="form-control" id="filmTime">
-                            </select>
                         </div>
                         
                         <button class="btn btn-lg btn-primary btn-block" type="submit">
                             OK</button>
 
-
+                    </form>
+                    
+                    <form class="form" id="sessionForm">
 
                     </form>
                 </div>
@@ -108,6 +108,7 @@
         let serverURL = 'http://localhost:8080/';
         $(document).ready(function() {
             let token = window.localStorage.getItem('auth_token');
+            let userEmail = parseJwt(token).sub;
             if (token) {
                 let role = parseJwt(token).auth;
                 if (role === 'ROLE_ADMIN') {
@@ -135,21 +136,16 @@
                     setTimeout('getSessionDateByFilmId(filmId)', 200);
 
                 });
+                
+                getUserByEmailForProfile(userEmail);
 
                 $("#filmDate").change(function(e) {
-                    $('#filmTime').empty();
                     console.log($("#filmDate").val());
-                    setTimeout('getSessionDateByFilmIdAndDate(filmId, $("#filmDate").val())', 100);
-                });
-
-                $("#filmTime").change(function(e) {
-                    console.log($("#filmTime").val());
-
                 });
                 
                 $("#sessionForm").submit(function(e) {
                     e.preventDefault();
-                        window.location.href = "hall.html?sessionId=" + $("#filmTime").val();
+                    getSessionByFilmIdAndDateAndNameCinema();
                     
                 });
 
@@ -193,35 +189,87 @@
                     console.log(response);
                     $.each(response, function(key, value) {
                         let normDate = value[0] + "." + value[1] + "." + value[2];
+                        let valueDate = value[0] + "-" + value[1] + "-" + value[2];
                         $('#filmDate').append(
                             `
-                                <option value = ${value}>${normDate}</option>
+                                <option value = ${valueDate}>${normDate}</option>
                             `
                         );
                     });
                 }
             });
-        }
+        };
+        
+        function getUserByEmailForProfile(userEmail) {
 
-        function getSessionDateByFilmIdAndDate(id, date) {
             $.ajax({
-                url: serverURL + "sessions/searchtime/" + id + "?date=" + date,
+                url: serverURL + "users/find?email=" + userEmail,
                 method: "GET",
                 dataType: "json",
                 contentType: "application/json",
                 success: function(response) {
-                    console.log(response);
-                    $.each(response, function(key, value) {
-                        let normTime = value.time[0] + ":" + value.time[1];
-                        $('#filmTime').append(
-                            `
-                                <option value = ${value.id}>${normTime}</option>
-                            `
-                        );
-                    });
+                    $('#profileBtn').append(
+                        `
+                        <a href="profile.html?id=${response.id}" class="nav-link" id="profileBtn">Profile</a>
+                    `)
+
                 }
-            });
+            })
         }
+        
+        function getSessionByFilmIdAndDateAndNameCinema() {
+            let filmId = $("#filmName").val();
+            var arr = ["Lviv Film Center", "Cinema Copernyk", "Multiplex", "King Cross", "Cinema Teatralna", "Cinema Dovzhenka", "Forum"];
+            let date = $("#filmDate").val();
+            console.log(date);
+
+            for (i = 0; i <= arr.length; i++) {
+                $.ajax({
+                    url: serverURL + "sessions/searchByAll?filmId=" + filmId + "&date=" + date + "&nameCinema=" + arr[i],
+                    method: "GET",
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function(response) {
+                        console.log(response);
+                        j = 0;
+                        var session = [];
+                        $.each(response, function(key, value) {
+                            session[j] = value;
+                            j = j + 1;
+                        })
+                        if (j != 0) {
+
+                            $('#sessionForm').append(
+                                `
+                            <div class="row">
+                                <div class="col-sm-15 col-md-10 col-25">
+                                    <label style="font-weight:bold;">${session[0].nameCinema} - ${session[0].date}</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                `)
+
+                            for (k = 0; k < session.length; k++) {
+
+                                $('#sessionForm').append(
+                                    `
+                                    <a href="${session[k].linkSession}">[${k+1}] - ${session[k].time}</a>
+                        `
+                                )
+                            }
+                            $('#sessionForm').append(
+                                ` 
+                                </div>
+                            </div>
+                            <hr />
+                            `
+                            )
+                        }
+                        console.log(session);
+                    }
+                })
+            }
+        }
+
         
         function parseJwt(token) {
             var base64Url = token.split('.')[1];

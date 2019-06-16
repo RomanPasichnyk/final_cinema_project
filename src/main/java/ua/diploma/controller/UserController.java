@@ -41,7 +41,8 @@ public class UserController {
         if (br.hasErrors()) {
             System.out.println("[USER]: Validation error");
 
-            String errMsg = br.getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).findFirst().get().toString();
+            String errMsg = br.getFieldErrors().stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage).findFirst().get().toString();
             ErrorDTO error = new ErrorDTO(errMsg);
             return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
         } else if (!confirmPassword) {

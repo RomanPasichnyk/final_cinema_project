@@ -30,8 +30,8 @@
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <ul class="navbar-nav my-2 my-sm-0">
-                    <li class="nav-item active">
-                        <a href="profile.html" class="nav-link" id="profileBtn">Profile</a>
+                    <li class="nav-item active" id="profileBtn">
+                        
                     </li>
                     <li class="nav-item">
                         <a href="signIn.html" class="nav-link" id="logoutBtn">Log Out</a>
@@ -134,6 +134,7 @@
                 })
                 mainProfile(token);
                 getUserById();
+                getUserByEmailForProfile(userEmail);
                 
 
                 $('#logoutBtn').on('click', function(e) {
@@ -241,6 +242,23 @@
                             <hr />
                     `
                     )
+
+                }
+            })
+        }
+        
+        function getUserByEmailForProfile(userEmail) {
+
+            $.ajax({
+                url: serverURL + "users/find?email=" + userEmail,
+                method: "GET",
+                dataType: "json",
+                contentType: "application/json",
+                success: function(response) {
+                    $('#profileBtn').append(
+                        `
+                        <a href="profile.html?id=${response.id}" class="nav-link" id="profileBtn">Profile</a>
+                    `)
 
                 }
             })
