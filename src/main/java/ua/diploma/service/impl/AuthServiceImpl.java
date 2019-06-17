@@ -48,6 +48,8 @@ public class AuthServiceImpl implements AuthService {
 
         if (userRepository.existsByEmail(userDTO.getEmail())) {
             throw new AlreadyExistsException("User with email " + userDTO.getEmail() + " already exists");
+        } else if (userRepository.existsByPhoneNumber(userDTO.getPhoneNumber())) {
+            throw new AlreadyExistsException("User with phoneNumber " + userDTO.getPhoneNumber() + " already exists");
         }
 
         UserEntity userEntity = modelMapper.map(userDTO, UserEntity.class);

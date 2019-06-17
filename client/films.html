@@ -120,6 +120,10 @@
 
         });
 
+        function normDate(date) {
+            return date < 10 ? "0" + date : date;
+        }
+        
         function getFilms() {
             let imgUrl = serverURL + 'films/image/';
             $.ajax({
@@ -143,7 +147,7 @@
                                         <h5 class="card-title">${value.filmName}</h5>
                                         <p class="card-text">Genre: ${value.genre}<br>
                                         Duration: ${value.duration}<br>
-                                        End Rental: ${value.endRental}</p>
+                                        End Rental: ${normDate(value.endRental[2])}.${normDate(value.endRental[1])}.${normDate(value.endRental[0])}</p>
 
                                         <a href="film.html?id=${value.id}" class="btn btn-primary">More details</a>
 

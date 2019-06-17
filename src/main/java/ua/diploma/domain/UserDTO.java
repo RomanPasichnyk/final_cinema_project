@@ -41,7 +41,7 @@ public class UserDTO {
     private int age;
 
     @CheckPhoneNumberCorrect
-    @CheckPhoneNumberExists
+//    @CheckPhoneNumberExists
     private String phoneNumber;
 
     private GenreEnum favoriteGenre;

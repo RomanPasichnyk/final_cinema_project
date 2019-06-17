@@ -1,13 +1,17 @@
 package ua.diploma.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.diploma.domain.UserDTO;
 import ua.diploma.entity.UserEntity;
+import ua.diploma.exception.AlreadyExistsException;
 import ua.diploma.exception.ResourceNotFoundException;
-import ua.diploma.utils.ObjectMapperUtils;
 import ua.diploma.repository.UserRepository;
 import ua.diploma.service.UserService;
+import ua.diploma.utils.ObjectMapperUtils;
 
 import java.util.List;
 
@@ -19,6 +23,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ObjectMapperUtils modelMapper;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void saveUser(UserDTO userDTO) {
@@ -61,4 +68,51 @@ public class UserServiceImpl implements UserService {
         UserDTO userDTO = modelMapper.map(userEntity, UserDTO.class);
         return userDTO;
     }
+
+
+    @Override
+    public void updateUser(UserDTO userDTO, String email) {
+
+        UserEntity userEntity = userRepository.findByEmail(email).get();
+        UserEntity newUserEntity = modelMapper.map(userDTO, UserEntity.class);
+
+        if (passwordEncoder.matches(userDTO.getConfirmPassword(),userEntity.getPassword())) {
+            userEntity.setPassword(passwordEncoder.encode(newUserEntity.getPassword()));
+        } else {
+            throw new ResourceNotFoundException("The incorrect password for confirm!");
+        }
+
+        if (!newUserEntity.getEmail().equals(userEntity.getEmail())) {
+            if (userRepository.existsByEmail(newUserEntity.getEmail())) {
+                throw new AlreadyExistsException("User with email " + userDTO.getEmail() + " already exists");
+            }
+        }
+
+        if (!newUserEntity.getPhoneNumber().equals(userEntity.getPhoneNumber())) {
+            if (userRepository.existsByPhoneNumber(newUserEntity.getPhoneNumber())) {
+                throw new AlreadyExistsException("User with phoneNumber " + userDTO.getPhoneNumber() + " already exists");
+            }
+        }
+
+        userEntity.setAge(newUserEntity.getAge());
+        userEntity.setBirthDate(newUserEntity.getBirthDate());
+        userEntity.setName(newUserEntity.getName());
+        userEntity.setPhoneNumber(newUserEntity.getPhoneNumber());
+        userEntity.setGender(newUserEntity.getGender());
+        userEntity.setFavoriteGenre(newUserEntity.getFavoriteGenre());
+        userEntity.setEmail(newUserEntity.getEmail());
+
+        userRepository.save(userEntity);
+    }
+
+    @Override
+    public void addImageToUser(String image, Long id) {
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Film with id[" + id + "] not found!")
+        );
+        userEntity.setImage(image);
+        userRepository.save(userEntity);
+    }
+
+
 }

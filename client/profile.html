@@ -31,7 +31,7 @@
             <form class="form-inline my-2 my-lg-0">
                 <ul class="navbar-nav my-2 my-sm-0">
                     <li class="nav-item active" id="profileBtn">
-                        
+
                     </li>
                     <li class="nav-item">
                         <a href="signIn.html" class="nav-link" id="logoutBtn">Log Out</a>
@@ -53,8 +53,8 @@
             <br>
             <div class="row">
                 <div class="col-sm-3">
-                    <div class="text-center">
-                        <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
+                    <div class="text-center" id="imageProfile">
+                        
                     </div><br>
 
                     <ul class="list-group">
@@ -65,9 +65,9 @@
                 </div>
 
                 <div class="col-sm-9">
-                   <div id='editButton'>
-                   </div>
-                    
+                    <div id='editButton'>
+                    </div>
+
                     <hr>
                     <form class="form" id="profileForm">
 
@@ -131,11 +131,14 @@
                     headers: {
                         'Authorization': 'Bearer ' + token
                     }
-                })
-                mainProfile(token);
-                getUserById();
-                getUserByEmailForProfile(userEmail);
+                });
                 
+                getUserById();
+                mainProfile(token);
+                
+                getUserByEmailForProfile(userEmail);
+
+
 
                 $('#logoutBtn').on('click', function(e) {
                     window.localStorage.removeItem('auth_token');
@@ -164,16 +167,27 @@
                 window.location.href = "signIn.html";
             }
         });
+        
+        function normDate(date) {
+            return date < 10 ? "0" + date : date;
+        }
 
 
         function getUserById() {
             let userId = window.location.search.replace('?id=', '');
+            let imgUrl = serverURL + "users/image/";
             $.ajax({
                 url: serverURL + "users/" + userId,
                 method: "GET",
                 dataType: "json",
                 contentType: "application/json",
                 success: function(response) {
+                    $('#imageProfile').append(
+                        `
+                            <img class="card-img-top img-thumbnail" src="${response.image !== null ? (imgUrl + response.id) : 'http://ssl.gstatic.com/accounts/ui/avatar_2x.png'}" width="150px" alt="User image">
+                        `
+                    );
+
                     $('#profileForm').append(
                         `
                         <div class="row">
@@ -236,7 +250,7 @@
                                     <label style="font-weight:bold;">BirthDay</label>
                                 </div>
                                 <div class="col-md-8 col-6">
-                                    ${response.birthDate}
+                                    ${normDate(response.birthDate[2])}.${normDate(response.birthDate[1])}.${normDate(response.birthDate[0])}
                                 </div>
                             </div>
                             <hr />
@@ -245,8 +259,8 @@
 
                 }
             })
-        }
-        
+        };
+
         function getUserByEmailForProfile(userEmail) {
 
             $.ajax({
@@ -262,7 +276,7 @@
 
                 }
             })
-        }
+        };
 
         function mainProfile(token) {
             let mainEmail = parseJwt(token).sub;
@@ -279,7 +293,7 @@
                         console.log(idProfile);
                         $('#editButton').append(
                             `
-                            <a href="editProfile.html"><button class="btn btn-primary" id="btn-edit">Edit Profile</button></a>
+                            <a href="editProfile.html?id=${response.id}"><button class="btn btn-primary" id="btn-edit">Edit Profile</button></a>
                         `
                         );
                     }

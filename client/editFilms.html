@@ -49,7 +49,7 @@
                             <th>Start Rental</th>
                             <th>End Rental</th>
                             <th></th>
-                            <th></th>
+
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -148,14 +148,12 @@
                             <tr>
                                 <td>${value.id}</td>
                                 <td>${value.filmName}</td>
-                                <td>${value.startRental}</td>
-                                <td>${value.startRental}</td>
+                                <td>${normDate(value.startRental[2])}.${normDate(value.startRental[1])}.${normDate(value.startRental[0])}</td>
+                                <td>${normDate(value.endRental[2])}.${normDate(value.endRental[1])}.${normDate(value.endRental[0])}</td>
                                 <td>
                                     <button class="btn btn-danger btn-sm" id="btn-delete-${value.id}">Delete</button>
                                 </td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm" id="btn-edit-${value.id}">Edit</button>
-                                </td>
+
                             </tr>
                         `
                         )
@@ -164,6 +162,10 @@
             });
         }
 
+        function normDate(date) {
+            return date < 10 ? "0" + date : date;
+        }
+        
         function deleteFilm(filmId) {
             $.ajax({
                 url: serverURL + 'films/' + filmId,

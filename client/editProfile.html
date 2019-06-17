@@ -50,20 +50,22 @@
 
         <div class="container bootstrap snippet">
             <div class="row">
-                <div class="col-sm-10">
-                    <h1>User name</h1>
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-sm-3">
                     <!--left col-->
 
 
                     <div class="text-center">
                         <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
+
                         <h6>Upload a different photo...</h6>
-                        <input type="file" class="text-center center-block file-upload">
+                        <input type="file" class="text-center center-block file-upload" id="image">
+                        <div>
+                        <br>
+                        <button class="btn btn-lg btn-success" type="button" id="btnSaveImage"><i class="glyphicon glyphicon-ok-sign"></i>Save new image</button>
+                        </div>
                     </div><br>
+
+
 
 
 
@@ -77,192 +79,184 @@
                 </div>
                 <!--/col-3-->
                 <div class="col-sm-9">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#home"><button>Home</button></a></li>
-                        <li><a data-toggle="tab" href="#messages"><button>Menu 1</button></a></li>
-                    </ul>
 
 
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="home">
-                            <hr>
-                            <form class="form" action="##" method="post" id="registrationForm">
-                                <div class="form-group">
-                                    <label for="email">
-                                        <h4>Email</h4>
+                    <form class="form" action="##" method="post" id="updateUserForm">
+                        <label id="error" style="color:red"></label>
+                        <div class="form-group">
+                            <label for="email">
+                                <h5>Email</h5>
+                            </label>
+
+
+                            <input type="text" class="form-control" name="email" id="email" placeholder="Your Email" title="enter your email">
+
+                        </div>
+                        <div class="form-group">
+
+                            <label for="name">
+                                <h5>Name</h5>
+                            </label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Your Name" title="enter your name">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="phone">
+                                    <h5>Phone Number</h5>
+                                </label>
+                                <input type="text" class="form-control" name="phone" id="phone" placeholder="Your Phone Number" title="enter your phone number">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="age">
+                                    <h5>Age</h5>
+                                </label>
+                                <input type="text" class="form-control" name="age" id="age" placeholder="Your Age" title="enter your age">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-xs-6">
+                                <div class="row mx-auto">
+                                    <label>
+                                        <h5>Birth Date</h5>
                                     </label>
 
-
-                                    <input type="text" class="form-control" name="email" id="email" placeholder="Email" title="enter your email">
-
-                                </div>
-                                <div class="form-group">
-
-
-                                    <input type="text" class="form-control" name="last_name" id="last_name" placeholder="last name" title="enter your last name if any.">
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <div class="col-xs-6">
-                                        <label for="phone">
-                                            <h4>Phone</h4>
-                                        </label>
-                                        <input type="text" class="form-control" name="phone" id="phone" placeholder="enter phone" title="enter your phone number if any.">
+                                    <div class="col-xs-5 col-md-5">
+                                        <select class="form-control" id="month">
+                                            <option value=01>January</option>
+                                            <option value=02>February</option>
+                                            <option value=03>March</option>
+                                            <option value=04>April</option>
+                                            <option value=05>May</option>
+                                            <option value=06>June</option>
+                                            <option value=07>July</option>
+                                            <option value=08>August</option>
+                                            <option value=09>September</option>
+                                            <option value=10>October</option>
+                                            <option value=11>November</option>
+                                            <option value=12>December</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-5 col-md-5">
+                                        <select class="form-control" id="day">
+                                            <option value=01>01</option>
+                                            <option value=02>02</option>
+                                            <option value=03>03</option>
+                                            <option value=04>04</option>
+                                            <option value=05>05</option>
+                                            <option value=06>06</option>
+                                            <option value=07>07</option>
+                                            <option value=08>08</option>
+                                            <option value=09>09</option>
+                                            <option value=10>10</option>
+                                            <option value=11>11</option>
+                                            <option value=12>12</option>
+                                            <option value=13>13</option>
+                                            <option value=14>14</option>
+                                            <option value=15>15</option>
+                                            <option value=16>16</option>
+                                            <option value=17>17</option>
+                                            <option value=18>18</option>
+                                            <option value=19>19</option>
+                                            <option value=20>20</option>
+                                            <option value=21>21</option>
+                                            <option value=22>22</option>
+                                            <option value=23>23</option>
+                                            <option value=24>24</option>
+                                            <option value=25>25</option>
+                                            <option value=26>26</option>
+                                            <option value=27>27</option>
+                                            <option value=28>28</option>
+                                            <option value=29>29</option>
+                                            <option value=30>30</option>
+                                            <option value=31>31</option>
+                                        </select>
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <div class="col-xs-6">
-                                        <label for="mobile">
-                                            <h4>Mobile</h4>
-                                        </label>
-                                        <input type="text" class="form-control" name="mobile" id="mobile" placeholder="enter mobile number" title="enter your mobile number if any.">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-
-                                    <div class="col-xs-6">
-                                        <label for="email">
-                                            <h4>Email</h4>
-                                        </label>
-                                        <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email.">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-
-                                    <div class="col-xs-6">
-                                        <label for="email">
-                                            <h4>Location</h4>
-                                        </label>
-                                        <input type="email" class="form-control" id="location" placeholder="somewhere" title="enter a location">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-
-                                    <div class="col-xs-6">
-                                        <label for="password">
-                                            <h4>Password</h4>
-                                        </label>
-                                        <input type="password" class="form-control" name="password" id="password" placeholder="password" title="enter your password.">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-
-                                    <div class="col-xs-6">
-                                        <label for="password2">
-                                            <h4>Verify</h4>
-                                        </label>
-                                        <input type="password" class="form-control" name="password2" id="password2" placeholder="password2" title="enter your password2.">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-xs-12">
-                                        <br>
-                                        <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
-                                        <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
-                                    </div>
-                                </div>
-                            </form>
-
-                            <hr>
-
+                            </div>
                         </div>
-                        <!--/tab-pane-->
-                        <div class="tab-pane" id="messages">
+                        <div class="form-group">
 
-                            <h2></h2>
+                            <div class="col-xs-6">
+                                <label for="gender">
+                                    <h5>Gender</h5>
+                                </label>
 
-                            <hr>
-                            <form class="form" action="##" method="post" id="registrationForm">
-                                <div class="form-group">
-
-                                    <div class="col-xs-6">
-                                        <label for="first_name">
-                                            <h4>First asdasd</h4>
-                                        </label>
-                                        <input type="text" class="form-control" name="first_name" id="first_name" placeholder="first name" title="enter your first name if any.">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-
-                                    <div class="col-xs-6">
-                                        <label for="last_name">
-                                            <h4>Last name</h4>
-                                        </label>
-                                        <input type="text" class="form-control" name="last_name" id="last_name" placeholder="last name" title="enter your last name if any.">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-
-                                    <div class="col-xs-6">
-                                        <label for="phone">
-                                            <h4>Phone</h4>
-                                        </label>
-                                        <input type="text" class="form-control" name="phone" id="phone" placeholder="enter phone" title="enter your phone number if any.">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-xs-6">
-                                        <label for="mobile">
-                                            <h4>Mobile</h4>
-                                        </label>
-                                        <input type="text" class="form-control" name="mobile" id="mobile" placeholder="enter mobile number" title="enter your mobile number if any.">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-
-                                    <div class="col-xs-6">
-                                        <label for="email">
-                                            <h4>Email</h4>
-                                        </label>
-                                        <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email.">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-
-                                    <div class="col-xs-6">
-                                        <label for="email">
-                                            <h4>Location</h4>
-                                        </label>
-                                        <input type="email" class="form-control" id="location" placeholder="somewhere" title="enter a location">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-
-                                    <div class="col-xs-6">
-                                        <label for="password">
-                                            <h4>Password</h4>
-                                        </label>
-                                        <input type="password" class="form-control" name="password" id="password" placeholder="password" title="enter your password.">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-
-                                    <div class="col-xs-6">
-                                        <label for="password2">
-                                            <h4>Verify</h4>
-                                        </label>
-                                        <input type="password" class="form-control" name="password2" id="password2" placeholder="password2" title="enter your password2.">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-xs-12">
-                                        <br>
-                                        <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
-                                        <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
-                                    </div>
-                                </div>
-                            </form>
-
+                                <select class="form-control" id="gender">
+                                    <option value=00>MALE</option>
+                                    <option value=01>FEMALE</option>
+                                </select>
+                            </div>
                         </div>
-                        <!--/tab-pane-->
+                        <div class="form-group">
+                            <div class="col-xs-6">
+                                <div class="col-xs-6">
+                                    <label for="userFavoriteGenre">
+                                        <h5>Favority Genre</h5>
+                                    </label>
+                                    <select class="form-control" id="userFavoriteGenre">
+                                        <option value="COMEDY">Comedy</option>
+                                        <option value="HORROR">Horror</option>
+                                        <option value="ROMANCE">Romance</option>
+                                        <option value="ACTION">Action</option>
+                                        <option value="THRILLER">Thriller</option>
+                                        <option value="DRAMA">Drama</option>
+                                        <option value="MYSTERY">Mystery</option>
+                                        <option value="CRIME">Crime</option>
+                                        <option value="ANIMATION">Animation</option>
+                                        <option value="ADVENTURE">Adventure</option>
+                                        <option value="FANTASY">Fantasy</option>
+                                        <option value="COMEDYROMANCE">Comedy-Romance</option>
+                                        <option value="ACTIONCOMEDY">Action-Comedy</option>
+                                        <option value="SUPERHERO">Superhero</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
-                    </div>
-                    <!--/tab-content-->
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="newPassword">
+                                    <h5>New Password</h5>
+                                </label>
+                                <input type="password" class="form-control" name="newPassword" id="newPassword" placeholder="Your New Password" title="enter your new password">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="password">
+                                    <h5>Password for confirm</h5>
+                                </label>
+                                <input type="password" class="form-control" name="password" id="password" placeholder="Your Password" title="enter your password">
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <br>
+                                <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i>Save</button>
+                                <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i>Reset</button>
+                            </div>
+                        </div>
+
+
+
+                    </form>
+
+                    <hr>
 
                 </div>
                 <!--/col-9-->
@@ -331,6 +325,8 @@
                     window.location.reload();
                 });
 
+                getUserByEmail(userEmail);
+
                 var readURL = function(input) {
                     if (input.files && input.files[0]) {
                         var reader = new FileReader();
@@ -348,10 +344,127 @@
                     readURL(this);
                 });
 
+                $("#updateUserForm").submit(function(e) {
+                    e.preventDefault();
+
+                    updateUser(userEmail);
+                    
+                });
+                
+                $('#btnSaveImage').on('click', function(e) {
+                    findByEmail(userEmail);
+                });
+
+
+
             } else {
                 window.location.href = "signIn.html";
             }
         });
+
+        function getUserByEmail(userEmail) {
+            var arr = ["COMEDY", "HORROR", "ROMANCE", "ACTION", "THRILLER", "DRAMA", "MYSTERY", "CRIME", "ANIMATION", "ADVENTURE", "FANTASY", "COMEDYROMANCE", "ACTIONCOMEDY", "SUPERHERO"];
+            $.ajax({
+                url: serverURL + "users/find?email=" + userEmail,
+                method: "GET",
+                dataType: "json",
+                contentType: "application/json",
+                success: function(response) {
+                    document.getElementById("email").value = response.email;
+                    document.getElementById("name").value = response.name;
+                    document.getElementById("phone").value = response.phoneNumber;
+                    document.getElementById("age").value = response.age;
+                    document.getElementById("month").options[response.birthDate[1] - 1].setAttribute("selected", "selected");
+                    document.getElementById("day").options[response.birthDate[2] - 1].setAttribute("selected", "selected");
+                    for (i = 0; i < arr.length; i++) {
+                        if (response.favoriteGenre == arr[i]) {
+                            document.getElementById("userFavoriteGenre").options[i].setAttribute("selected", "selected");
+                        }
+                    }
+                    if (response.gender == "FEMALE") {
+                        document.getElementById("gender").options[01].setAttribute("selected", "selected");
+                    }
+
+                }
+            })
+        }
+
+        function updateUser(oldEmail) {
+            let userEmail = $("#email").val();
+            let userName = $("#name").val();
+            let userAge = $("#age").val();
+            let userPhoneNumber = $("#phone").val();
+            let userBirthDay = ["2019" - userAge, $("#month").val(), $("#day").val()];
+            let userGender = $("#gender").val();
+            let userFavoriteGenre = $("#userFavoriteGenre").val();
+            let newPassword = $("#newPassword").val();
+            let confirmPassword = $("#password").val();
+
+            let user = {
+                email: userEmail,
+                password: newPassword,
+                confirmPassword: confirmPassword,
+                name: userName,
+                age: userAge,
+                phoneNumber: userPhoneNumber,
+                favoriteGenre: userFavoriteGenre,
+                birthDate: "" + userBirthDay[0] + "-" + userBirthDay[1] + "-" + userBirthDay[2],
+                gender: userGender
+            };
+            console.log(user);
+
+            $.ajax({
+                url: serverURL + "users/update?email=" + oldEmail,
+                method: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(user),
+                complete: function(data) {
+                    if (data.status == 201) {
+                        window.location.href = "profile.html?id=1";
+                    } else {
+                        $("#error").empty();
+                        $('#error').append(
+                            `
+                            ${data.responseJSON.message}
+                        `
+                        )
+                        console.log(data);
+                        console.log(data.responseJSON.message);
+                    }
+                }
+            })
+        }
+
+        function uploadFile(userId) {
+            let formData = new FormData();
+            formData.append('file', $('#image')[0].files[0]);
+            console.log($('#image')[0].files[0].name);
+            $.ajax({
+                url: serverURL + 'users/image/' + userId,
+                method: 'POST',
+                contentType: false,
+                processData: false,
+                data: formData,
+                complete: function(res) {
+                    alert("Image added");
+                }
+            })
+
+        }
+
+        function findByEmail(userEmail) {
+            $.ajax({
+                url: serverURL + "users/find?email=" + userEmail,
+                method: 'GET',
+                dataType: "json",
+                contentType: "application/json",
+                success: function(res) {
+                    uploadFile(res.id);
+                    console.log(res);
+                }
+            })
+        }
 
 
 

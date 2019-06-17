@@ -156,9 +156,14 @@
                 window.location.href = "signIn.html";
             }
         });
+        
+        function normDate(date) {
+            return date < 10 ? "0" + date : date;
+        }
 
         function getAllComments() {
             let filmId = window.location.search.replace('?id=', '');
+            let imgUrl = serverURL + "users/image/";
             $.ajax({
                 url: serverURL + "comments/" + filmId,
                 method: "GET",
@@ -172,14 +177,17 @@
                             <div class="media comment-box">
                                 <div class="media-left">
                                     <a href="profile.html?id=${value.user.id}">
-                                        <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                                        <img class="mg-responsive user-photo" src="${value.user.image !== null ? (imgUrl + value.user.id) : 'http://ssl.gstatic.com/accounts/ui/avatar_2x.png'}" width="150px" alt="User image">
                                     </a>
                                 </div>
                                 <div class="media-body">
                                     <h4 class="media-heading">${value.user.name} </h4> 
-                                    ${value.commentsDate}
-                                    ${value.commentsTime}
+                                    <h6 class="media-heading">Date: ${normDate(value.commentsDate[2])}.${normDate(value.commentsDate[1])}.${normDate(value.commentsDate[0])} ||
+                                    Time: ${normDate(value.commentsTime[0])}:${normDate(value.commentsTime[1])}:${normDate(value.commentsTime[2])} </h6> 
+                                    
                                     <p>${value.comment}</p>
+                                    
+
                                 </div>
                             </div>
                         `
@@ -276,7 +284,7 @@
                                 `
                             <div class="row">
                                 <div class="col-sm-15 col-md-10 col-25">
-                                    <label style="font-weight:bold;">${session[0].nameCinema} - ${session[0].date}</label>
+                                    <label style="font-weight:bold;">${session[0].nameCinema} - ${normDate(session[0].date)}</label>
                                 </div>
                                 <div class="col-md-8 col-6">
                                 `)
@@ -370,7 +378,7 @@
                                     <label style="font-weight:bold;">Release film</label>
                                 </div>
                                 <div class="col-md-8 col-6">
-                                    ${response.releaseFilm}
+                                    ${normDate(response.releaseFilm[2])}.${normDate(response.releaseFilm[1])}.${normDate(response.releaseFilm[0])}
                                 </div>
                             </div>
 
@@ -380,7 +388,7 @@
                                     <label style="font-weight:bold;">Start rental</label>
                                 </div>
                                 <div class="col-md-8 col-6">
-                                    ${response.startRental}
+                                    ${normDate(response.startRental[2])}.${normDate(response.startRental[1])}.${normDate(response.startRental[0])}
                                 </div>
                             </div>  
                             <hr />
@@ -389,7 +397,7 @@
                                     <label style="font-weight:bold;">End rental</label>
                                 </div>
                                 <div class="col-md-8 col-6">
-                                    ${response.endRental}
+                                    ${normDate(response.endRental[2])}.${normDate(response.endRental[1])}.${normDate(response.endRental[0])}
                                 </div>
                             </div>
                             <hr />

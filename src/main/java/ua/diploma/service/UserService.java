@@ -17,4 +17,9 @@ public interface UserService {
     UserDTO findUserByPhoneNumber(String phoneNumber);
 
     UserDTO findUserByEmail(String email);
+
+    void updateUser(UserDTO userDTO, String email);
+
+    void addImageToUser(String image, Long id);
+
 }

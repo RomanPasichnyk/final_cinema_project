@@ -82,25 +82,25 @@ public class UserController {
         return new ResponseEntity<List<UserDTO>>(userDTOS, HttpStatus.OK);
     }
 
-    @PostMapping("{userId}/image")
+    @PostMapping("image/{userId}")
     public ResponseEntity<?> uploadImage(
             @PathVariable("userId") Long id,
             @RequestParam("file") MultipartFile file
     ) {
         fileStorageService.storeFile(file, "user_id_" + id + getFileExtension(file));
-        UserDTO userDTO = userService.findUserById(id);
-        userDTO.setImage("user_id_" + id + getFileExtension(file));
-        userService.saveUser(userDTO);
+        userService.addImageToUser("user_id_" + id + getFileExtension(file), id);
+        System.out.println("film_id_" + id + getFileExtension(file));
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
-    }
+    };
 
-    @GetMapping("{userId}/image")
+    @GetMapping("image/{userId}")
     public ResponseEntity<?> getImage(
             @PathVariable("userId") Long id,
             HttpServletRequest request
     ) {
         UserDTO userDTO = userService.findUserById(id);
         String fileName = userDTO.getImage();
+        System.out.println(fileName);
         Resource resource = fileStorageService.loadFile(fileName);
 
         String contentType = null;
@@ -118,7 +118,7 @@ public class UserController {
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline: filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
-    }
+    };
 
     private String getFileExtension(MultipartFile file) {
         String name = file.getOriginalFilename();
@@ -127,6 +127,27 @@ public class UserController {
             return ""; // empty extension
         }
         return name.substring(lastIndexOf);
+    };
+
+
+    @PostMapping("update")
+    public ResponseEntity<?> updateUser(
+            @Valid
+            @RequestBody UserDTO userDTO, BindingResult br,
+            @RequestParam("email") String email) {
+
+        if (br.hasErrors()) {
+            System.out.println("[USER]: Validation error");
+
+            String errMsg = br.getFieldErrors().stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage).findFirst().get().toString();
+            ErrorDTO error = new ErrorDTO(errMsg);
+            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        } else {
+            userService.updateUser(userDTO, email);
+        }
+
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
 }
