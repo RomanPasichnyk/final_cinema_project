@@ -43,12 +43,13 @@
 
 
     <section>
+       <br><br><br><br><br>
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-4 well well-sm mx-auto">
                     <legend><a href="http://www.jquery2dotnet.com"><i class="glyphicon glyphicon-globe"></i></a> Sign in!</legend><br>
                     <form action="#" method="post" class="form" role="form" id="signInForm">
-
+                        <label id="error" style="color:red"></label>
                         <input class="form-control" id="userEmail" placeholder="Your Email" type="email" /><br>
                         <input class="form-control" id="userPassword" placeholder="Your Password" type="password" /><br>
 
@@ -60,7 +61,9 @@
                 </div>
             </div>
         </div>
+            <br><br><br><br><br><br><br><br><br>
     </section>
+
 
 
     <!--footer starts from here-->
@@ -68,15 +71,10 @@
         <div class="container">
             <ul class="foote_bottom_ul_amrc">
                 <br>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="http://kalarikendramdelhi.com">About</a></li>
-                <li><a href="http://kalarikendramdelhi.com">Services</a></li>
-                <li><a href="http://kalarikendramdelhi.com">Pricing</a></li>
-                <li><a href="http://kalarikendramdelhi.com">Blog</a></li>
-                <li><a href="http://kalarikendramdelhi.com">Contact</a></li>
+                <li><a href="films.html">Home</a></li>
             </ul>
             <!--foote_bottom_ul_amrc ends here-->
-            <p class="text-center">Copyright @2018 | Designed With by <a href="#">Roman Pasichnyk</a></p>
+            <p class="text-center">Copyright @2019 | Designed by <a href="#">Roman Pasichnyk</a></p>
 
             <ul class="social_footer_ul">
                 <li><a href="http://facebook.com"><i class="fa fa-facebook-f"></i></a></li>
@@ -139,16 +137,19 @@
 
                         let role = parseJwt(token).auth;
 
-                        if (role === 'ROLE_USER') {
-                            alert('Your role : ' + role);
-                            // window.location.href = 'user.html';
-                        } else if (role === 'ROLE_ADMIN') {
-                            // window.location.href = 'admin.html';
-                            alert('Your role : ' + role);
+                        if (role === 'ROLE_ADMIN') {
+                            alert('Hello Administrator');
                         }
                         window.location.href = 'films.html';
-
-
+                    } else {
+                        $("#error").empty();
+                        $('#error').append(
+                            `
+                            ${data.responseJSON.message}
+                        `
+                        )
+                        console.log(data);
+                        console.log(data.responseJSON.message);
                     }
                 }
             })

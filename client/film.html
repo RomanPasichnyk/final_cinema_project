@@ -26,7 +26,7 @@
                     <a href="sessions.html" class="nav-link">Sessions</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Contact Us</a>
+                    <a href="contactUs.html" class="nav-link">Contact Us</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
@@ -52,12 +52,32 @@
             <form class="form" id="filmForm">
 
             </form>
+
             <br>
-            <form class="form" id="sessionForm">
+            <h4 class="text-center">Choose your session!</h4>
+            <div class="container">
+                <div class="row" id="sessions">
 
-            </form>
+                    <table class="table table-striped" id="sessionTable">
+
+                        <thead>
+                            <tr>
+                                <th>Cinema</th>
+                                <th>Film Name</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                </div>
+            </div>
+
+            <br>
 
 
+            <h4 class="text-center">Write your comment!</h4>
             <div class="container">
                 <div class="row">
                     <div class="embed-responsive embed-responsive-2by9 mb-4">
@@ -89,15 +109,10 @@
         <div class="container">
             <ul class="foote_bottom_ul_amrc">
                 <br>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="http://kalarikendramdelhi.com">About</a></li>
-                <li><a href="http://kalarikendramdelhi.com">Services</a></li>
-                <li><a href="http://kalarikendramdelhi.com">Pricing</a></li>
-                <li><a href="http://kalarikendramdelhi.com">Blog</a></li>
-                <li><a href="http://kalarikendramdelhi.com">Contact</a></li>
+                <li><a href="films.html">Home</a></li>
             </ul>
             <!--foote_bottom_ul_amrc ends here-->
-            <p class="text-center">Copyright @2018 | Designed With by <a href="#">Roman Pasichnyk</a></p>
+            <p class="text-center">Copyright @2019 | Designed by <a href="#">Roman Pasichnyk</a></p>
 
             <ul class="social_footer_ul">
                 <li><a href="http://facebook.com"><i class="fa fa-facebook-f"></i></a></li>
@@ -156,7 +171,7 @@
                 window.location.href = "signIn.html";
             }
         });
-        
+
         function normDate(date) {
             return date < 10 ? "0" + date : date;
         }
@@ -222,7 +237,8 @@
                 data: JSON.stringify(comments),
                 complete: function(data) {
                     if (data.status == 201) {
-                        alert('comment added');
+                        //                        alert('comment added');
+                        window.location.reload();
                     }
                 }
             })
@@ -271,39 +287,33 @@
                     dataType: "json",
                     contentType: "application/json",
                     success: function(response) {
+
                         console.log(response);
                         j = 0;
                         var session = [];
+                        var times = [];
                         $.each(response, function(key, value) {
                             session[j] = value;
                             j = j + 1;
                         })
                         if (j != 0) {
-
-                            $('#sessionForm').append(
-                                `
-                            <div class="row">
-                                <div class="col-sm-15 col-md-10 col-25">
-                                    <label style="font-weight:bold;">${session[0].nameCinema} - ${normDate(session[0].date)}</label>
-                                </div>
-                                <div class="col-md-8 col-6">
-                                `)
-
+                            step = 0;
                             for (k = 0; k < session.length; k++) {
+                                times[step] = ' <a href="' + session[k].linkSession + '">' + normDate(session[k].time[0]) + ':' + normDate(session[k].time[1]) + '</a>';
+                                step++;
+                            };
 
-                                $('#sessionForm').append(
-                                    `
-                                    <a href="${session[k].linkSession}">[${k+1}] - ${session[k].time}</a>
-                        `
-                                )
-                            }
-                            $('#sessionForm').append(
-                                ` 
-                                </div>
-                            </div>
-                            <hr />
+                            $('#sessionTable tbody').append(
+                                `
+                            <tr>
+                                <td>${session[0].nameCinema}</td>
+                                <td>${session[0].film.filmName}</td>
+                                <td>${normDate(session[0].date[2])}.${normDate(session[0].date[1])}.${normDate(session[0].date[0])}</td>
+                                <td>${times}</td>
+                            </tr>
                             `
-                            )
+                            );
+
                         }
                         console.log(session);
                     }

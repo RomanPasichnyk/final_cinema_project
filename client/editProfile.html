@@ -25,18 +25,19 @@
                     <a href="sessions.html" class="nav-link">Sessions</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Contact Us</a>
+                    <a href="contactUs.html" class="nav-link">Contact Us</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <ul class="navbar-nav my-2 my-sm-0">
-                    <li class="nav-item active">
-                        <a href="profile.html" class="nav-link" id="profileBtn">Profile</a>
+                   <li class="nav-item" id="profileBtn">
+                        
+                        
                     </li>
                     <li class="nav-item">
                         <a href="signIn.html" class="nav-link" id="logoutBtn">Log Out</a>
                     </li>
-
+                    
                 </ul>
             </form>
 
@@ -276,15 +277,10 @@
         <div class="container">
             <ul class="foote_bottom_ul_amrc">
                 <br>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="http://kalarikendramdelhi.com">About</a></li>
-                <li><a href="http://kalarikendramdelhi.com">Services</a></li>
-                <li><a href="http://kalarikendramdelhi.com">Pricing</a></li>
-                <li><a href="http://kalarikendramdelhi.com">Blog</a></li>
-                <li><a href="http://kalarikendramdelhi.com">Contact</a></li>
+                <li><a href="films.html">Home</a></li>
             </ul>
             <!--foote_bottom_ul_amrc ends here-->
-            <p class="text-center">Copyright @2018 | Designed With by <a href="#">Roman Pasichnyk</a></p>
+            <p class="text-center">Copyright @2019 | Designed by <a href="#">Roman Pasichnyk</a></p>
 
             <ul class="social_footer_ul">
                 <li><a href="http://facebook.com"><i class="fa fa-facebook-f"></i></a></li>
@@ -326,6 +322,7 @@
                 });
 
                 getUserByEmail(userEmail);
+                getUserByEmailForProfile(userEmail);
 
                 var readURL = function(input) {
                     if (input.files && input.files[0]) {
@@ -361,6 +358,23 @@
                 window.location.href = "signIn.html";
             }
         });
+        
+        function getUserByEmailForProfile(userEmail) {
+            
+            $.ajax({
+                url: serverURL + "users/find?email=" + userEmail,
+                method: "GET",
+                dataType: "json",
+                contentType: "application/json",
+                success: function(response) {
+                    $('#profileBtn').append(
+                    `
+                        <a href="profile.html?id=${response.id}" class="nav-link" id="profileBtn">Profile</a>
+                    `)
+
+                }
+            })
+        }
 
         function getUserByEmail(userEmail) {
             var arr = ["COMEDY", "HORROR", "ROMANCE", "ACTION", "THRILLER", "DRAMA", "MYSTERY", "CRIME", "ANIMATION", "ADVENTURE", "FANTASY", "COMEDYROMANCE", "ACTIONCOMEDY", "SUPERHERO"];

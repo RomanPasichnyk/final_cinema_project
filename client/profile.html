@@ -25,7 +25,7 @@
                     <a href="sessions.html" class="nav-link">Sessions</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Contact Us</a>
+                    <a href="contactUs.html" class="nav-link">Contact Us</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
@@ -43,18 +43,13 @@
         </div>
     </nav>
 
-
     <section>
-
-
-
         <div class="container bootstrap snippet">
-            <br>
-            <br>
+           <br><br>
             <div class="row">
                 <div class="col-sm-3">
                     <div class="text-center" id="imageProfile">
-                        
+
                     </div><br>
 
                     <ul class="list-group">
@@ -80,24 +75,20 @@
             </div>
         </div>
 
-
+<br><br><br><br><br><br><br>
     </section>
 
 
     <!--footer starts from here-->
     <footer class="footer">
+       
         <div class="container">
             <ul class="foote_bottom_ul_amrc">
                 <br>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="http://kalarikendramdelhi.com">About</a></li>
-                <li><a href="http://kalarikendramdelhi.com">Services</a></li>
-                <li><a href="http://kalarikendramdelhi.com">Pricing</a></li>
-                <li><a href="http://kalarikendramdelhi.com">Blog</a></li>
-                <li><a href="http://kalarikendramdelhi.com">Contact</a></li>
+                <li><a href="films.html">Home</a></li>
             </ul>
             <!--foote_bottom_ul_amrc ends here-->
-            <p class="text-center">Copyright @2018 | Designed With by <a href="#">Roman Pasichnyk</a></p>
+            <p class="text-center">Copyright @2019 | Designed by <a href="#">Roman Pasichnyk</a></p>
 
             <ul class="social_footer_ul">
                 <li><a href="http://facebook.com"><i class="fa fa-facebook-f"></i></a></li>
@@ -132,10 +123,10 @@
                         'Authorization': 'Bearer ' + token
                     }
                 });
+                setTimeout("getUserById()", 100);
                 
-                getUserById();
-                mainProfile(token);
-                
+                setTimeout("mainProfile()", 350);
+
                 getUserByEmailForProfile(userEmail);
 
 
@@ -167,7 +158,7 @@
                 window.location.href = "signIn.html";
             }
         });
-        
+
         function normDate(date) {
             return date < 10 ? "0" + date : date;
         }
@@ -228,15 +219,6 @@
                             <hr />
                             <div class="row">
                                 <div class="col-sm-3 col-md-2 col-5">
-                                    <label style="font-weight:bold;">Phone Number</label>
-                                </div>
-                                <div class="col-md-8 col-6">
-                                    ${response.phoneNumber}
-                                </div>
-                            </div>
-                            <hr />
-                            <div class="row">
-                                <div class="col-sm-3 col-md-2 col-5">
                                     <label style="font-weight:bold;">Favorite Genre</label>
                                 </div>
                                 <div class="col-md-8 col-6">
@@ -278,7 +260,8 @@
             })
         };
 
-        function mainProfile(token) {
+        function mainProfile() {
+            let token = window.localStorage.getItem('auth_token');
             let mainEmail = parseJwt(token).sub;
             let idProfile = window.location.search.replace('?id=', '');
 
@@ -288,14 +271,44 @@
                 dataType: "json",
                 contentType: "application/json",
                 success: function(response) {
+                    let role = parseJwt(token).auth;
                     if (response.id == idProfile) {
-                        console.log(response.id);
-                        console.log(idProfile);
                         $('#editButton').append(
                             `
                             <a href="editProfile.html?id=${response.id}"><button class="btn btn-primary" id="btn-edit">Edit Profile</button></a>
                         `
                         );
+                        if (role != 'ROLE_ADMIN') {
+
+
+                            $('#profileForm').append(
+                                `
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Phone Number</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    ${response.phoneNumber}
+                                </div>
+                            </div>
+                        <hr/>
+                        `);
+                        }
+                    }
+
+                    if (role === 'ROLE_ADMIN') {
+                        $('#profileForm').append(
+                            `
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Phone Number</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    ${response.phoneNumber}
+                                </div>
+                            </div>
+                            <hr/>
+                        `);
                     }
 
                 }

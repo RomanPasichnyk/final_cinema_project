@@ -68,9 +68,13 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String signin(SigninRequest request) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtTokenProvider.generateToken(authentication);
-        return token;
+        try{
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = jwtTokenProvider.generateToken(authentication);
+            return token;
+        }  catch(Exception e) {
+            throw new ResourceNotFoundException("The password or email is incorrect");
+        }
     }
 }

@@ -20,4 +20,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     Boolean existsByPhoneNumber(String phoneNumber);
 
+    Boolean existsByPassword(String password);
+
 }
